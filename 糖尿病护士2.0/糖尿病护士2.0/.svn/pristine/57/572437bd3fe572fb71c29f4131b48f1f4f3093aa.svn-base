@@ -1,0 +1,25 @@
+//
+//  Subjects.h
+//  TangNiaoBingHuShi
+//
+//  Created by qimingfang-dwk on 14/11/26.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface Subjects : NSObject
+@property (nonatomic,strong)NSString * aid;//文章id
+@property (nonatomic,strong)NSString * title;  //文章标题
+@property (nonatomic,strong)NSString * summary; //文章简介
+@property (nonatomic,strong)NSString * dateline;//发表时间
+@property (nonatomic,strong)NSString * content;//文章内容
+@property (nonatomic,strong)NSString * catid;//栏目ID
+@property (nonatomic,strong)NSString * sharetimes;
+@property (nonatomic,strong)NSString *commentnum;
+@property (nonatomic,strong)NSString *favtimes;//收藏
+@property (nonatomic,strong)NSString * images;
+@property (nonatomic,strong)NSString * subjectsURL;
+@property (nonatomic,strong )NSString * contentIma;
+
+@end

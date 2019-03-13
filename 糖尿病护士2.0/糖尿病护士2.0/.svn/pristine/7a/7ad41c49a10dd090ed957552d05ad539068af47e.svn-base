@@ -1,0 +1,195 @@
+//
+//  AppDelegate.m
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-11-18.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "AppDelegate.h"
+#import "User.h"
+#import "AFNetworking.h"
+#import "CommonSettings.h"
+
+@interface AppDelegate ()
+@property (nonatomic,strong)User * user;
+@end
+
+@implementation AppDelegate
+
+#pragma mark - 登录请求
+- (void)loginRequest{
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://test.tanghushi.com/api/mobile/?module=login&loginsubmit=yes&thsapp=1&passwddecode=1&passwddecode=1&username=%@&password=%@", _user.userAccount, _user.userPassword]];
+    NSLog(@"%@", url);
+    
+    NSURLRequest * request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:20];
+    AFHTTPRequestOperation * operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSString *requestTmp = [NSString stringWithString:operation.responseString];
+        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+        
+        id object = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+        NSString *requestResult = [[object objectForKey:@"Message"] objectForKey:@"messageval"];
+        if ([requestResult isEqualToString:@"location_login_succeed"] ||[requestResult isEqualToString:@"login_succeed"]) {
+            User *user = [User shareInstance];
+            user.member_uid = [[object objectForKey:@"Variables"] objectForKey:@"member_uid"];
+            user.member_username = [[object objectForKey:@"Variables"] objectForKey:@"member_username"];
+            user.userAccount = _user.userAccount;
+            NSLog(@"%@", user.member_username);
+            NSLog(@"%@", user.member_uid);  
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (error) {
+            NSLog(@"error ==%@",error);
+        }
+    }];
+    [operation start];
+    
+}
+- (void)registerRemoteNotification
+{
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeSound|UIRemoteNotificationTypeAlert)];
+}
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Override point for customization after application launch.
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *userPath = [docPath stringByAppendingString:@"/user.aa"];
+    NSLog(@"path ====%@", userPath);
+    
+    _user = [NSKeyedUnarchiver unarchiveObjectWithFile:userPath];
+    
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+        UIUserNotificationType myTypes = UIRemoteNotificationTypeBadge |UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeSound;
+        
+        UIUserNotificationSettings *settings =
+        [UIUserNotificationSettings settingsForTypes:myTypes categories:nil];
+        [[UIApplication sharedApplication]
+         registerUserNotificationSettings:settings];
+    }else
+    {
+        [self registerRemoteNotification];
+    }
+    
+    
+#warning 发布之前修改为Release模式
+    //    [CommonSettings setTestMode:SettingsBaseURLTypeRelease];
+    [CommonSettings setTestMode:SettingsBaseURLTypeDEBUG];
+
+//    [UINavigationBar appearance].translucent = NO;
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
+    [UINavigationBar appearance].barTintColor = [UIColor colorWithRed:249/255.0 green:249/255.0 blue:249 /255.0 alpha:1.0];
+
+    
+   //    NSLog(@"%@", [FrontiaPush getChannelId] );
+//    FrontiaPush *push = [Frontia getPush];
+//    [FrontiaPush setAccessToken:@"55555"];
+//    [push bindChannel:^(NSString *appId, NSString *userId, NSString *channelId) {
+//        NSLog(@"appid = %@", appId);
+//        NSLog(@"uiserId = %@", userId);
+//        NSLog(@"channelId = %@", channelId);
+//    } failureResult:^(NSString *action, int errorCode, NSString *errorMessage) {
+//        NSLog(@"%@----%d----%@", action, errorCode, errorMessage);
+//    }];
+//    [self exitAction];
+    [self loginRequest];
+//    [BPush setupChannel:launchOptions];
+//    [BPush setDelegate: self];
+//    [BPush bindChannel];
+
+    return YES;
+}
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    NSLog(@"test:%@",deviceToken);
+//    [BPush registerDeviceToken:deviceToken];// 必须。可以在其它时机调用,只有在该方法返回(通过 onMethod:response:    回调)绑定成功时,app 才能接收到 Push 消息。一个 app 绑定成功至少一次即可(如 果 access token 变更请重新绑定)。
+//    FrontiaPush *push = [Frontia getPush];
+//    [push bindChannel:^(NSString *appId, NSString *userId, NSString *channelId) {
+//        NSLog(@"appid = %@", appId);
+//        NSLog(@"uiserId = %@", userId);
+//        NSLog(@"channelId = %@", channelId);
+//    } failureResult:^(NSString *action, int errorCode, NSString *errorMessage) {
+//        NSLog(@"%@----%d----%@", action, errorCode, errorMessage);
+//    }];
+
+//    [FrontiaPush setAccessToken:deviceToken];
+}
+#pragma  mark- 消息接收
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+//    [BPush handleNotification:userInfo];
+    NSLog(@"userInfo: %@", [userInfo description]);
+    [application setApplicationIconBadgeNumber:1];
+    NSString *alertString = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"收到推送通知"
+                                                        message:[NSString stringWithFormat:@"%@", alertString]
+                                                       delegate:self
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [application setApplicationIconBadgeNumber:0];
+    
+
+
+}
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
+{
+    //register to receive notifications
+    [application registerForRemoteNotifications];
+}
+- (void)exitAction{
+    User * user =[User shareInstance];
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *userPath = [docPath stringByAppendingPathComponent:@"/user.aa"];
+    [NSKeyedArchiver archiveRootObject:user toFile:userPath];
+   
+
+}
+- (void) onMethod:(NSString*)method response:(NSDictionary*)data {
+    NSLog(@"method = %@", method);
+    NSLog(@"data = %@", data);
+    
+//    if ([BPushRequestMethod_Bind isEqualToString:method]) {
+//        NSDictionary* res = [[NSDictionary alloc] initWithDictionary:data];
+//        NSString *appid = [res valueForKey:BPushRequestAppIdKey];
+//        NSString *userid = [res valueForKey:BPushRequestUserIdKey];
+//        NSString *channelid = [res valueForKey:BPushRequestChannelIdKey];
+//        int returnCode = [[res valueForKey:BPushRequestErrorCodeKey] intValue];
+//        NSString *requestid = [res valueForKey:BPushRequestRequestIdKey]; }
+}
+
+- (void)applicationWillResignActive:(UIApplication *)application {
+    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:1];
+    [application setApplicationIconBadgeNumber:0];
+
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:1];
+    [application setApplicationIconBadgeNumber:0];
+
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+//    [BPush getAppId];
+//    [BPush getUserId];
+//    [BPush getChannelId];
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+@end

@@ -1,0 +1,92 @@
+//
+//  AilPayWebView.m
+//  TangNiaoBingHuShi
+//
+//  Created by qimingfang-dwk on 14/12/26.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "AilPayWebView.h"
+
+@interface AilPayWebView ()<UIWebViewDelegate>
+
+@end
+
+@implementation AilPayWebView
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    _webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0,self.view.frame.size.width,self.view.frame.size.height)];
+    
+    NSURLRequest * request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url]];
+    
+    _webView.delegate = self;
+    
+    [self.view addSubview:_webView];
+    
+    [_webView loadRequest:request];
+    [_webView setScalesPageToFit:YES];
+
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height)];
+    [view setTag:216];
+    [view setBackgroundColor:[UIColor blackColor]];
+    [view setAlpha:0.5];
+    [self.view addSubview:view];
+    
+    UIActivityIndicatorView * activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 64.0f, 64.0f)];
+    [activityIndicator setCenter:view.center];
+    [activityIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhite];
+    [view addSubview:activityIndicator];
+    [activityIndicator startAnimating];
+}
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    NSLog(@"redirected");
+    NSLog(@"%s",__func__);
+    return YES;
+}
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    UIActivityIndicatorView * activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 32.0f, 32.0f)];
+    UIView *view = (UIView*)[self.view viewWithTag:216];
+    [view removeFromSuperview];
+    
+    [activityIndicator stopAnimating];
+    
+    NSString *title = [webView stringByEvaluatingJavaScriptFromString:@"function getPayValue(){var payValue = document.getElementById('result_data').value; return payValue;}; getPayValue();"];
+    NSLog(@"title==%@",title);
+    if ([title intValue]==1) {
+        NSLog(@"支付成功，返回");
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+- (void) webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+    UIActivityIndicatorView * activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 32.0f, 32.0f)];
+    [activityIndicator stopAnimating];
+    UIView *view = (UIView*)[self.view viewWithTag:216];
+    [view removeFromSuperview];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

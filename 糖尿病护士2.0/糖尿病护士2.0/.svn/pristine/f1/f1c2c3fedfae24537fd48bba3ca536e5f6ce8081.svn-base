@@ -1,0 +1,13 @@
+//
+//  BloodSugarRecordTableViewController.h
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-12-1.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface BloodSugarRecordTableViewController : UITableViewController
+
+@end

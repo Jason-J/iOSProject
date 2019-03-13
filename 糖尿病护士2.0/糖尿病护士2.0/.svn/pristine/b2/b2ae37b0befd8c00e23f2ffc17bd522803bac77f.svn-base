@@ -1,0 +1,27 @@
+//
+//  MyDoctorTableViewCell.h
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-12-1.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "Doctor.h"
+@interface MyDoctorTableViewCell : UITableViewCell
+
+
+@property (weak, nonatomic) IBOutlet UIImageView *myImageView;
+@property (weak, nonatomic) IBOutlet UILabel *doctorNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *hospitalLabel;
+@property (weak, nonatomic) IBOutlet UILabel *signLabel;
+
+@property (nonatomic, strong) Doctor *doctor;
+@end
+
+@interface MyDoctorTableViewCell(ConfigureForDoctor)
+
+- (void)configureForModel:(Doctor *)doctor;
+
+@end

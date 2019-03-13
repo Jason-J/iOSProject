@@ -1,0 +1,273 @@
+//
+//  MyDataViewController.m
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-11-22.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "MyDataViewController.h"
+#import "JSDatePickerView.h"
+#import "LoginState.h"
+#import "User.h"
+#import "BloodRecord.h"
+#import "SHLineGraphView.h"
+#import "SHPlot.h"
+@interface MyDataViewController ()
+{
+    NSNumber *maxMol;
+}
+@property (weak, nonatomic) IBOutlet UIButton *startTimeBtn;
+@property (weak, nonatomic) IBOutlet UIButton *endTimeBtn;
+@property (weak, nonatomic) IBOutlet UILabel *startTimeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *endTimeLabel;
+@property (weak, nonatomic) IBOutlet UIButton *changeTimeBtn;
+@property (weak, nonatomic) IBOutlet UILabel *changeTimeLabel;
+@property (weak, nonatomic) IBOutlet UIButton *searchBtn;
+
+@property (weak, nonatomic) IBOutlet UIScrollView *lineScrollView;
+@property (nonatomic, strong) NSDate *date;
+@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, strong) NSMutableArray *lineArr;
+@property (nonatomic, strong) SHLineGraphView *lineGraph;
+@property (nonatomic, strong) SHPlot *plot1;
+@end
+
+@implementation MyDataViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    _lineArr = [[NSMutableArray alloc] init];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage  imageNamed:@"backgroundImage.png"]];
+    NSDateFormatter *forma = [[NSDateFormatter alloc] init];
+    [forma setDateFormat:@"yyyy-MM-dd"];
+    NSString *time = [forma stringFromDate:[NSDate date]];
+    _endTimeLabel.text = time;
+
+  
+}
+- (IBAction)startTimeAction:(id)sender {
+    JSDatePickerView *picker =[JSDatePickerView datePickerViewInstance];
+    picker.datePicker.datePickerMode = UIDatePickerModeDate;
+    picker.datePicker.maximumDate = [NSDate date];
+    [picker showInView:self.view];
+    [picker valueOfDate:^(NSDate *date, NSString *currentStr) {
+        _startTimeLabel.text = currentStr;
+        _date = date;
+    }];
+}
+- (IBAction)endTimeAction:(id)sender {
+
+    JSDatePickerView *picker =[JSDatePickerView datePickerViewInstance];
+    picker.datePicker.datePickerMode = UIDatePickerModeDate;
+    picker.datePicker.minimumDate = _date;
+    picker.datePicker.maximumDate = [NSDate date];
+    [picker showInView:self.view];
+    [picker valueOfCurrentStr:^(NSString *currentStr) {
+        NSLog(@"%@", currentStr);
+        _endTimeLabel.text = currentStr;
+    }];
+}
+- (IBAction)changeTimeBtnAction:(id)sender {
+    JSPickerView *picker = [JSPickerView pickerViewInstance];
+    picker.firstMArr = (NSMutableArray *)
+                        @[@"凌晨3点",
+                         @"空腹血糖",
+                         @"早餐餐后2小时",
+                         @"午餐餐前",
+                         @"午餐餐后2小时",
+                         @"晚餐餐前",
+                         @"晚餐餐后2小时",
+                         @"睡前血糖"];
+    [picker showInView:self.view];
+    [picker valueOfCurrentStr:^(NSString *currentStr) {
+        _changeTimeLabel.text = currentStr;
+    }];
+}
+- (IBAction)confirmBtnAction:(id)sender {
+    if ([_startTimeLabel.text isEqualToString:@""]) {
+        [FVCustomAlertView showDefaultWarningAlertOnView:self.view withTitle:@"请选择开始时间"];
+        [self hideAlertViewLater];
+        return;
+    }
+    if ([_changeTimeLabel.text isEqualToString:@"选择时间"]) {
+        [FVCustomAlertView showDefaultWarningAlertOnView:self.view withTitle:@"请选择时间"];
+        [self hideAlertViewLater];
+        return;
+    }
+    LoginState *state = [[LoginState alloc] init];
+    if ([state loginStateWithViewController:self]) {
+        User *user = [User shareInstance];
+        [self getDataFromServerWithUserid:user.member_uid];
+    }
+
+}
+
+
+#pragma  mark- 请求数据
+-(void)getDataFromServerWithUserid:(NSString *)uid
+{
+    NSString *urlStr = [[NSString alloc] initWithFormat:@"http://test.tanghushi.com/api/mobile/?version=2&module=patient&op=getrecord&uid=%@&start=%@&end=%@",uid, _startTimeLabel.text, _endTimeLabel.text];
+    JSNetWorking *netWork = [[JSNetWorking alloc] init];
+    [netWork getRequestWithURLStr:urlStr success:^(id ResultData) {
+        NSLog(@"%@", ResultData);
+        NSArray *tempArray = [NSArray arrayWithArray:[[[ResultData objectForKey:@"Variables"] objectForKey:@"value"] objectForKey:@"record"]];
+        NSLog(@"%@", tempArray);
+        //    按照日期排序
+        NSSortDescriptor *sort =[[NSSortDescriptor alloc] initWithKey:@"rdate" ascending:YES];
+        NSMutableArray *sortDescriptors = [[NSMutableArray alloc] initWithObjects:&sort count:1];
+       NSArray *tepArr =  [[tempArray sortedArrayUsingDescriptors:sortDescriptors] copy];
+        if (_lineGraph) {
+            [_lineGraph removeFromSuperview];
+        }
+        _plot1 = [[SHPlot alloc] init];
+        _lineGraph = [[SHLineGraphView alloc] init];
+        [self exchangeModelWithArray:tepArr];
+    } failure:^(NSError *error, AFHTTPRequestOperation *operation) {
+        NSLog(@"%@", operation);
+    }];
+}
+#pragma  mark- 转换model类
+-(void)exchangeModelWithArray:(NSArray *)array
+{
+    NSString *timeNum = nil;
+    if ([_changeTimeLabel.text isEqualToString:@"凌晨3点"]){
+        timeNum = @"b0";
+    } else if ([_changeTimeLabel.text isEqualToString:@"空腹血糖"]){
+        timeNum = @"b1";
+    } else if ([_changeTimeLabel.text isEqualToString:@"早餐餐后2小时"]){
+        timeNum = @"b2";
+    } else if ([_changeTimeLabel.text isEqualToString:@"午餐餐前"]){
+        timeNum = @"b3";
+    } else if ([_changeTimeLabel.text isEqualToString:@"午餐餐后2小时"]){
+        timeNum = @"b4";
+    } else if ([_changeTimeLabel.text isEqualToString:@"晚餐餐前"]){
+        timeNum = @"b5";
+    } else if ([_changeTimeLabel.text isEqualToString:@"晚餐餐后2小时"]){
+        timeNum = @"b6";
+    } else if ([_changeTimeLabel.text isEqualToString:@"睡前血糖"]){
+        timeNum = @"b7";
+    }
+    [_lineArr removeAllObjects];
+    //转换model类
+    for (NSDictionary *dic in array) {
+        BloodRecord *record = [[BloodRecord alloc] init];
+        record.rdate = [record.rdate substringWithRange:NSMakeRange(5, 5)];
+        [record setValuesForKeysWithDictionary:dic];
+        [_lineArr addObject:record];
+    }
+    [self drawLineWithArray:array andTimeNun:timeNum];
+}
+#pragma  mark- 绘制曲线
+-(void)drawLineWithArray:(NSArray *)array andTimeNun:(NSString *)timeNum
+{
+    _lineScrollView.contentSize = CGSizeMake(_lineArr.count * 30, _lineScrollView.frame.size.height);
+    NSMutableArray *keys = [[NSMutableArray alloc] init];
+    for (NSDictionary *po in array) {
+        [keys addObject:[po objectForKey:@"rid"]];
+    }
+    NSMutableArray *values = [[NSMutableArray alloc] init];
+    for (NSDictionary *dic in array) {
+        [values addObject:[[dic objectForKey:@"rdate"] substringWithRange:NSMakeRange(5, 5)]];
+    }
+    //    NSLog(@"%@", keys);
+    NSMutableArray *points = [[NSMutableArray alloc] init];
+    for (NSDictionary *dic in array) {
+        [points addObject:[dic objectForKey:timeNum]];
+        for (NSNumber  *value in points) {
+
+            float nValue = [value floatValue];
+            if (nValue >= [maxMol floatValue]) {
+                maxMol = value;
+                //                NSLog(@"maxmo == %@", maxMol);
+            }
+        }
+    }
+    NSMutableArray *lineArray = [[NSMutableArray alloc] init];
+    NSMutableArray *pointArray = [[NSMutableArray alloc] init];
+    for (int i = 0; i < values.count; i ++) {
+        NSDictionary *dic = [NSDictionary dictionaryWithObject:values[i] forKey:keys[i]];
+        [lineArray addObject:dic];
+
+        NSDictionary *dic2 = [NSDictionary dictionaryWithObject:points[i] forKey:keys[i]];
+        [pointArray addObject:dic2];
+    }
+
+        _lineGraph.frame = CGRectMake(0, 0, _lineScrollView.contentSize.width , _lineScrollView.contentSize.height);
+    NSDictionary *_themeAttributes = @{
+                                       kXAxisLabelColorKey : [UIColor blackColor],
+                                       kXAxisLabelFontKey : [UIFont fontWithName:@"TrebuchetMS" size:10],
+                                       kYAxisLabelColorKey : [UIColor blackColor],
+                                       kYAxisLabelFontKey : [UIFont fontWithName:@"TrebuchetMS" size:10],
+                                       kYAxisLabelSideMarginsKey : @10,
+                                       kPlotBackgroundLineColorKye : RGB(225, 225, 225)
+                                       };
+    _lineGraph.themeAttributes = _themeAttributes;
+    _lineGraph.yAxisRange = maxMol;
+    _lineGraph.yAxisSuffix = @"";
+    _lineGraph.xAxisValues = lineArray;
+    //    _lineGraph.xAxisValues = @[@{@1 : @"10"},
+    //                               @{@2: @"15"}];
+  
+    _plot1.plottingValues = pointArray;
+    //    _plot1.plottingValues = @[@{@1 : @"10"},
+    //                              @{@2: @"15"}];
+    NSDictionary *_plotThemeAttributes = @{
+                                           kPlotFillColorKey : [UIColor clearColor],
+                                           kPlotStrokeWidthKey : @2,
+                                           kPlotStrokeColorKey : [UIColor grayColor],
+                                           kPlotPointFillColorKey : RGB(75, 193, 210),
+                                           kPlotPointValueFontKey : [UIFont fontWithName:@"TrebuchetMS" size:18]
+                                           };
+    NSMutableArray *pointsLabelsArray = [[NSMutableArray alloc] init];
+    for (int i = 0; i <points.count;  i ++) {
+        BloodRecord *record = [_lineArr objectAtIndex:i];
+        NSString *recordInfo = [NSString stringWithFormat:@"%@ %@: %@",record.rdate,_changeTimeLabel.text, points[i]];
+        [pointsLabelsArray addObject:recordInfo];
+    }
+    _plot1.bloodRecordMArr = _lineArr;
+    _plot1.plottingPointsLabels = pointsLabelsArray;
+    _plot1.plotThemeAttributes = _plotThemeAttributes;
+    [_lineGraph addPlot:_plot1];
+    
+    //You can as much `SHPlots` as you can in a `SHLineGraphView`
+    
+    [_lineGraph setupTheView];
+    
+    UILabel *unitLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 80, 32)];
+    unitLabel.text = @"单位：mmol/L";
+    [unitLabel sizeToFit];
+    unitLabel.backgroundColor = [UIColor clearColor];
+    unitLabel.font = [UIFont systemFontOfSize:10];
+    [_lineScrollView addSubview:_lineGraph];
+    [_lineScrollView addSubview:unitLabel];
+
+
+}
+-(void)hideAlertViewLater
+{
+    _timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(hideAlertViewNow) userInfo:nil repeats:YES];
+}
+-(void)hideAlertViewNow
+{
+    [FVCustomAlertView  hideAlertFromView:self.view fading:YES];
+    [_timer invalidate];
+    
+}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

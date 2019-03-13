@@ -1,0 +1,17 @@
+//
+//  ClinicCell.h
+//  TangNiaoBingHuShi
+//
+//  Created by qimingfang-dwk on 14/12/5.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface ClinicCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *moneyLab;
+@property (weak, nonatomic) IBOutlet UILabel *countLab;
+@property (weak, nonatomic) IBOutlet UILabel *starLab;
+@property (weak, nonatomic) IBOutlet UIImageView *image;
+
+@end

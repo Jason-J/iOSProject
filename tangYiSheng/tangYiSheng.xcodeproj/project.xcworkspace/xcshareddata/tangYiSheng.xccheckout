@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>B7D4CB5D-75D5-4772-9EE7-5C3D2D68ADBB</string>
+	<key>IDESourceControlProjectName</key>
+	<string>tangYiSheng</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>79C8CE3A-BD89-4D24-B054-56A83F28E7BE</key>
+		<string>svn://210.14.154.208/qmf/ios/trunk</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>tangYiSheng/tangYiSheng.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>79C8CE3A-BD89-4D24-B054-56A83F28E7BE</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>79C8CE3A-BD89-4D24-B054-56A83F28E7BE</key>
+		<string>svn://210.14.154.208</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>svn://210.14.154.208/qmf/ios/trunk/tangYiSheng/tangYiSheng.xcodeproj</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>79C8CE3A-BD89-4D24-B054-56A83F28E7BE</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>79C8CE3A-BD89-4D24-B054-56A83F28E7BE</string>
+			<key>IDESourceControlWCCName</key>
+			<string>trunk</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -1,0 +1,20 @@
+//
+//  MyPlanViewController.h
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-12-2.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "UseMedicinePlan.h"
+@protocol MyPlanViewControllerDelegage <NSObject>
+
+- (void) passViewControllerWithDictionary:(NSDictionary *) dic;
+
+@end
+@interface MyPlanViewController : UIViewController
+@property (nonatomic, assign) id <MyPlanViewControllerDelegage> delegate;
+@property (nonatomic, strong) UseMedicinePlan *project;
+@property (nonatomic, assign) BOOL  isHistoryPlan;
+@end

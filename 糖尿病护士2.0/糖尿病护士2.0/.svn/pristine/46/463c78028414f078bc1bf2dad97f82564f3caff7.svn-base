@@ -1,0 +1,13 @@
+//
+//  PhysicalCheckRemindViewController.h
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-11-20.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface PhysicalCheckRemindViewController : UIViewController
+ 
+@end

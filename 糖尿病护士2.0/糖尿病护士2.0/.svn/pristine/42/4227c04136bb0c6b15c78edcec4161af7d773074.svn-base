@@ -1,0 +1,80 @@
+//
+//  FamousExpertViewController.m
+//  TangNiaoBingHuShi
+//
+//  Created by qimingfang-dwk on 14/12/29.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "FamousExpertViewController.h"
+#import "FamousExpertCell.h"
+#import "Doctor.h"
+
+@interface FamousExpertViewController ()<UITableViewDataSource,UITableViewDelegate>{
+    NSMutableArray * _tableArray;
+}
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@end
+
+@implementation FamousExpertViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    _tableArray = [[NSMutableArray alloc] init];
+    self.tableView.rowHeight = 130;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    // Do any additional setup after loading the view.
+    [self getFamousExpertRequest];
+}
+#pragma mark - request
+-(void)getFamousExpertRequest{
+    JSNetWorking * js = [[JSNetWorking alloc] init];
+    NSString * url = [CommonSettings baseUrlWithVersion:2 module:@"expert" parameters:@{@"op":@"famousdoctor"}];
+    [js getRequestWithURLStr:url success:^(id ResultData) {
+        id value = [[ResultData objectForKey:@"Variables"] objectForKey:@"value"];
+        [_tableArray removeAllObjects];
+        //        [_tableArray addObjectsFromArray:value];
+        for (NSDictionary *dic  in value) {
+            Doctor * doctor = [[Doctor alloc] init];
+            [doctor setValuesForKeysWithDictionary:dic];
+            [_tableArray addObject:doctor];
+        }
+        [self.tableView reloadData];
+        NSLog(@"value =   =======%lu",(unsigned long)_tableArray.count);
+    } failure:^(NSError *error, AFHTTPRequestOperation *operation) {
+        NSLog(@"error = %@",error);
+        [FVCustomAlertView showDefaultErrorAlertOnView:self.view withTitle:@"错误"];
+    }];
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return _tableArray.count;
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    FamousExpertCell * cell = (FamousExpertCell *)[tableView dequeueReusableCellWithIdentifier:@"famousexpert"];
+    if (!cell) {
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"FamousExpertCell" owner:self options:nil] lastObject];
+    }
+    // Configure the cell...
+    [cell configureForExpert:[_tableArray objectAtIndex:indexPath.row]];
+    
+    return cell;
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

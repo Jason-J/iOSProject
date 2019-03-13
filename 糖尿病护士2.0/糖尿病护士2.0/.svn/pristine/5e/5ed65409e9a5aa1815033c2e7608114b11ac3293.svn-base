@@ -1,0 +1,110 @@
+//
+//  MyDoctorViewController.m
+//  TangNiaoBingHuShi
+//
+//  Created by qimingfang-dwk on 14/12/8.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "MyDoctorViewController.h"
+#import "DoctorTableViewCell.h"
+#import "MyDoctorDetailViewController.h"
+#import "MyDoctorTableViewCell.h"
+@interface MyDoctorViewController ()<UITableViewDataSource,UITableViewDelegate>{
+    
+    NSMutableArray * tableArray;
+ 
+}
+@property (weak, nonatomic) IBOutlet UIButton *leftBtn;
+@property (weak, nonatomic) IBOutlet UIButton *rightBtn;
+@property(nonatomic,strong)UITableView * tableView;
+@end
+
+@implementation MyDoctorViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    tableArray = [[NSMutableArray alloc] init];
+    //    self.tableView.tableHeaderView.userInteractionEnabled =YES;
+    self.tableView = [[UITableView alloc] init];
+    [self.tableView setFrame:CGRectMake(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.view addSubview:self.tableView];
+    //    self.tableView.tableHeaderView = view;
+    [self getMyDoctorRequest];
+}
+#pragma mark - request
+- (void)getMyDoctorRequest{
+    JSNetWorking * js = [[JSNetWorking alloc] init];
+    [js getRequestWithURLStr:[CommonSettings baseUrlWithVersion:2 module:@"expert" parameters:@{@"op":@"mylist"}] success:^(id ResultData) {
+        NSArray * array = [[ResultData objectForKey:@"Variables"] objectForKey:@"value"];
+
+        for (NSDictionary * dic in array) {
+            Doctor * doctor = [[Doctor alloc] init];
+            [doctor setValuesForKeysWithDictionary:dic];
+            [tableArray addObject:doctor];
+            [self.tableView reloadData];
+        }
+    } failure:^(NSError *error, AFHTTPRequestOperation *operation) {
+        NSLog(@"%s,请求错误, %@",__func__,error);
+        [FVCustomAlertView showDefaultErrorAlertOnView:self.view withTitle:@"错误"];
+    }];
+}
+- (void)rightRequest{
+    JSNetWorking * js = [[JSNetWorking alloc] init];
+    [js getRequestWithURLStr: [CommonSettings baseUrlWithVersion:2 module:@"expert" parameters:@{@"op":@"getlistbyconsult"}] success:^(id ResultData) {
+        id value = [[ResultData objectForKey:@"Variables"] objectForKey:@"value"];
+        NSLog(@"value========%@",value);
+    } failure:^(NSError *error, AFHTTPRequestOperation *operation) {
+        NSLog(@"请求错误,%@",error);
+    [FVCustomAlertView showDefaultErrorAlertOnView:self.view withTitle:@"错误"];
+    }];
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    // Return the number of rows in the section.
+    return tableArray.count;
+    
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *str = @"doctorCell";
+    MyDoctorTableViewCell *cell = (MyDoctorTableViewCell *)[tableView dequeueReusableCellWithIdentifier:str];
+    if (!cell) {
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"MyDoctorTableViewCell" owner:self options:nil]lastObject];
+    }
+    [cell configureForModel:[tableArray objectAtIndex:indexPath.row]];
+    // Configure the cell...
+    return cell;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 110;
+}
+#pragma  mark- tableView cell 点击方法
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MyDoctorDetailViewController *myDoctorDetailVC = [[MyDoctorDetailViewController alloc] initWithNibName:@"MyDoctorDetailViewController" bundle:[NSBundle mainBundle]];
+    Doctor * doctor = [tableArray objectAtIndex:indexPath.row];
+    myDoctorDetailVC.uid = doctor.uid;
+    myDoctorDetailVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:myDoctorDetailVC animated:YES];
+ 
+}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

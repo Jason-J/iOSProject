@@ -1,0 +1,20 @@
+//
+//  Prompt.m
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-11-25.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "Prompt.h"
+
+@implementation Prompt
+- (void)setValue:(id)value forUndefinedKey:(NSString *)key
+{
+    
+}
+- (id)valueForUndefinedKey:(NSString *)key
+{
+    return  nil;
+}
+@end

@@ -1,0 +1,72 @@
+//
+//  UseMedicinePlanViewController.m
+//  TangNiaoBingHuShi
+//
+//  Created by qimingfang-dwk on 14/11/19.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "UseMedicinePlanViewController.h"
+#import "CurrentMedicinePlanViewController.h"
+#import "MyPlanViewController.h"
+@interface UseMedicinePlanViewController ()<MyPlanViewControllerDelegage>
+@property (weak, nonatomic) IBOutlet UIView *fourButtonView;
+@property (weak, nonatomic) IBOutlet UIView *threeButtonView;
+@property (weak, nonatomic) IBOutlet UIView *buttonView;
+
+@property (weak, nonatomic) IBOutlet UIView *titleView;
+@end
+
+@implementation UseMedicinePlanViewController
+
+- (void)viewDidLoad{
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    _threeButtonView.hidden = YES;
+    _fourButtonView.hidden = NO;
+    _buttonView.layer.borderColor = [RGB(225, 225, 225) CGColor];
+    _buttonView.layer.borderWidth = 1;
+    _titleView.layer.borderWidth = 1;
+    _titleView.layer.borderColor = [RGB(225, 225, 225)CGColor];
+
+    
+}
+
+-(void)passViewControllerWithDictionary:(NSDictionary *)dic
+{
+    _fourButtonView.hidden = NO;
+//    _fourButtonView.frame = CGRectMake(_fourButtonView.frame.origin.x, _threeButtonView.frame.origin.y, _fourButtonView.frame.size.width, _fourButtonView.frame.size.height);
+    [FVCustomAlertView showDefaultDoneAlertOnView:self.view withTitle:@"添加成功！"];
+    _threeButtonView.hidden = YES;
+}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+- (IBAction)currentMedicinePlanBtnAction:(id)sender {
+    UIStoryboard *useMedicineSB = [UIStoryboard storyboardWithName:@"UseMedicinePlan" bundle:nil];
+    CurrentMedicinePlanViewController *currentMedicinePlanViewController =[useMedicineSB instantiateViewControllerWithIdentifier:@"CurrentMedicinePlanViewController"];
+    [currentMedicinePlanViewController valueOfSuccessBlock:^{
+        [FVCustomAlertView showDefaultDoneAlertOnView:self.view withTitle:@"修改成功"];
+    }];
+    [self.navigationController pushViewController:currentMedicinePlanViewController animated:YES];
+}
+
+- (IBAction)addPlanBtnAction:(id)sender {
+    UIStoryboard *useMedicineSB = [UIStoryboard storyboardWithName:@"UseMedicinePlan" bundle:nil];
+    MyPlanViewController *useMedicineVC =[useMedicineSB instantiateViewControllerWithIdentifier:@"MyPlanViewController"];
+    useMedicineVC.delegate = self;
+    [self.navigationController pushViewController:useMedicineVC animated:YES];
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

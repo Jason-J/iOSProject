@@ -1,0 +1,203 @@
+//
+//  RepeatAlarmClockViewController.m
+//  患者端APP
+//
+//  Created by Jason on 14-9-30.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "RepeatAlarmClockViewController.h"
+#import "AlarmClock.h"
+@interface RepeatAlarmClockViewController ()<UITableViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, strong) UITableView *tableView;
+
+@end
+
+@implementation RepeatAlarmClockViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+      
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    [self.view addSubview:_tableView];
+    [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"reuse"];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"< 确认" style:UIBarButtonItemStylePlain target:self action:@selector(goToBack)];
+}
+
+#pragma  mark- 返回上个界面
+-(void)goToBack
+{
+    self.block(_alarmClock);
+    [self.navigationController popViewControllerAnimated:YES];
+}
+-(void)valueOfReturnBLOCK:(__autoreleasing ReturnBLOCK )block
+{
+    self.block = block;
+}
+
+#pragma mark - UITableView delegate
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *str = @"reuse";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:str];
+    if (indexPath.row ==0) {
+        if ([_alarmClock.Sunday isEqualToString:@"1"]) {
+            [cell.imageView setImage:[UIImage imageNamed:@"xuanze.png"]];
+        } else {
+            [cell.imageView setImage:[UIImage imageNamed:@"xuanze-huise"]];
+        }
+        cell.textLabel.text = @"周日";
+    } else if (indexPath.row == 1){
+        if ([_alarmClock.Monday isEqualToString:@"1"]) {
+            [cell.imageView setImage:[UIImage imageNamed:@"xuanze.png"]];
+
+        }else {
+            [cell.imageView setImage:[UIImage imageNamed:@"xuanze-huise"]];
+        }
+        cell.textLabel.text = @"周一";
+    } else if (indexPath.row == 2){
+        if ([_alarmClock.Tuesday isEqualToString:@"1"]) {
+            [cell.imageView setImage:[UIImage imageNamed:@"xuanze.png"]];
+        }else {
+            [cell.imageView setImage:[UIImage imageNamed:@"xuanze-huise"]];
+        }
+        cell.textLabel.text = @"周二";
+    } else if (indexPath.row == 3){
+        if ([_alarmClock.Wednesday isEqualToString:@"1"]) {
+            [cell.imageView setImage:[UIImage imageNamed:@"xuanze.png"]];
+        }else {
+            [cell.imageView setImage:[UIImage imageNamed:@"xuanze-huise"]];
+        }
+        cell.textLabel.text = @"周三";
+    } else if (indexPath.row == 4){
+        if ([_alarmClock.Thursday isEqualToString:@"1"]) {
+            [cell.imageView setImage:[UIImage imageNamed:@"xuanze.png"]];
+        }else {
+            [cell.imageView setImage:[UIImage imageNamed:@"xuanze-huise"]];
+        }
+        cell.textLabel.text = @"周四";
+    } else if (indexPath.row == 5) {
+        if ([_alarmClock.Friday isEqualToString:@"1"]) {
+            [cell.imageView setImage:[UIImage imageNamed:@"xuanze.png"]];
+        }else {
+            [cell.imageView setImage:[UIImage imageNamed:@"xuanze-huise"]];
+        }
+        cell.textLabel.text = @"周五";
+    } else if (indexPath.row ==6) {
+        if ([_alarmClock.Saturday isEqualToString:@"1"]) {
+            [cell.imageView setImage:[UIImage imageNamed:@"xuanze.png"]];
+        }else {
+            [cell.imageView setImage:[UIImage imageNamed:@"xuanze-huise"]];
+        }
+        cell.textLabel.text = @"周六";
+    }
+    return cell;
+}
+- (void)showThePictureWithIndexPath:(NSIndexPath *)indexPath
+{
+    [[_tableView cellForRowAtIndexPath:indexPath].imageView setImage:[UIImage imageNamed:@"xuanze.png"]];
+    
+}
+- (void)hiddenThePictureWithIndexPath:(NSIndexPath *)indexPath
+{
+    [[_tableView cellForRowAtIndexPath:indexPath].imageView setImage:[UIImage imageNamed:@"xuanze-huise"]];
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+
+    
+    if (indexPath.row ==0) {
+        if ([_alarmClock.Sunday isEqualToString:@"0"]) {
+            _alarmClock.Sunday = @"1";
+            [self showThePictureWithIndexPath:indexPath];
+        } else {
+            _alarmClock.Sunday = @"0";
+            [self hiddenThePictureWithIndexPath:indexPath];
+        }
+    } else if (indexPath.row == 1){
+        if ([_alarmClock.Monday isEqualToString:@"0"]) {
+            _alarmClock.Monday = @"1";
+            [self showThePictureWithIndexPath:indexPath];
+        } else {
+            _alarmClock.Monday = @"0";
+            [self hiddenThePictureWithIndexPath:indexPath];
+        }
+    } else if (indexPath.row == 2){
+        if ([_alarmClock.Tuesday isEqualToString:@"0"]) {
+            _alarmClock.Tuesday = @"1";
+            [self showThePictureWithIndexPath:indexPath];
+        } else {
+            _alarmClock.Tuesday = @"0";
+            [self hiddenThePictureWithIndexPath:indexPath];
+        }
+    } else if (indexPath.row == 3){
+        if ([_alarmClock.Wednesday isEqualToString:@"0"]) {
+            _alarmClock.Wednesday = @"1";
+            [self showThePictureWithIndexPath:indexPath];
+        } else {
+            _alarmClock.Wednesday = @"0";
+            [self hiddenThePictureWithIndexPath:indexPath];
+        }
+    } else if (indexPath.row == 4){
+        if ([_alarmClock.Thursday isEqualToString:@"0"]) {
+            _alarmClock.Thursday = @"1";
+            [self showThePictureWithIndexPath:indexPath];
+        } else {
+            _alarmClock.Thursday = @"0";
+            [self hiddenThePictureWithIndexPath:indexPath];
+        }
+    } else if (indexPath.row == 5) {
+        if ([_alarmClock.Friday isEqualToString:@"0"]) {
+            _alarmClock.Friday = @"1";
+            [self showThePictureWithIndexPath:indexPath];
+        } else {
+            _alarmClock.Friday = @"0";
+            [self hiddenThePictureWithIndexPath:indexPath];
+        }
+    } else if (indexPath.row ==6) {
+        if ([_alarmClock.Saturday isEqualToString:@"0"]) {
+            _alarmClock.Saturday = @"1";
+            [self showThePictureWithIndexPath:indexPath];
+        } else {
+            _alarmClock.Saturday = @"0";
+            [self hiddenThePictureWithIndexPath:indexPath];
+        }
+    }
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 7;
+}
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

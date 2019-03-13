@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="49e-Tb-3d3">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <scenes>
+        <!--主页-->
+        <scene sceneID="2ub-pb-ZM6">
+            <objects>
+                <navigationController id="RLQ-f4-mCq" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="主页" image="home_gray" id="aVU-vV-Zpf"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="XYd-N2-xY8">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="uM9-sQ-TWk" kind="relationship" relationship="rootViewController" id="SXf-Rj-Tp6"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gZS-MW-C1e" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-586" y="-1232"/>
+        </scene>
+        <!--糖尿病护士-->
+        <scene sceneID="TQN-cY-WBB">
+            <objects>
+                <viewController id="uM9-sQ-TWk" customClass="MainViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jOA-DS-wOF"/>
+                        <viewControllerLayoutGuide type="bottom" id="NZf-Sd-xeV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="topRight" placeholderIntrinsicWidth="400" placeholderIntrinsicHeight="800" id="6HF-yg-GWv">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="otM-xk-tkH">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="410"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E4o-5R-hF0">
+                                        <rect key="frame" x="20" y="175" width="68" height="68"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="glucose_record">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="bloodSugarBtnAction:" destination="uM9-sQ-TWk" eventType="touchUpInside" id="dG4-tc-lAt"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ple-VL-Paw">
+                                        <rect key="frame" x="232" y="175" width="68" height="68"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="regimen">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="useMedicineBtnAction:" destination="uM9-sQ-TWk" eventType="touchUpInside" id="UjL-H3-Jbr"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="daf-RL-Dca">
+                                        <rect key="frame" x="126" y="175" width="68" height="68"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="ask_a_doctor">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="consultDoctorBtnAction:" destination="uM9-sQ-TWk" eventType="touchUpInside" id="Y2b-C8-ydI"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="咨询医生" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TJc-vf-m0R">
+                                        <rect key="frame" x="126" y="251" width="68" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="我的数据" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fKs-xW-n0a">
+                                        <rect key="frame" x="20" y="367" width="68" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tD0-H7-HSz">
+                                        <rect key="frame" x="232" y="291" width="68" height="68"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="free_question">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="myQuestionBtnAction:" destination="uM9-sQ-TWk" eventType="touchUpInside" id="wBt-TD-G4y"/>
+                                        </connections>
+                                    </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="home_banner_" translatesAutoresizingMaskIntoConstraints="NO" id="XKb-T8-1Wb">
+                                        <rect key="frame" x="0.0" y="64" width="320" height="102"/>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nC3-Bf-khU">
+                                        <rect key="frame" x="126" y="291" width="68" height="68"/>
+                                        <state key="normal" image="renowned_experts">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="famousExpertBtnAction:" destination="uM9-sQ-TWk" eventType="touchUpInside" id="3Ac-Qz-Nhb"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="用药方案" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AEu-6y-nFt">
+                                        <rect key="frame" x="232" y="251" width="68" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="著名专家" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o2H-mJ-cfK">
+                                        <rect key="frame" x="134" y="367" width="52" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="blue_line" translatesAutoresizingMaskIntoConstraints="NO" id="RhB-ui-VSW">
+                                        <rect key="frame" x="0.0" y="403" width="320" height="7"/>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rkV-1G-3BP">
+                                        <rect key="frame" x="20" y="291" width="68" height="68"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="my_data">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="myDataBtnAction:" destination="uM9-sQ-TWk" eventType="touchUpInside" id="nRS-sZ-Kjk"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="血糖记录" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uYh-Ij-tNn">
+                                        <rect key="frame" x="20" y="251" width="68" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="我要提问" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="19r-bo-cOO">
+                                        <rect key="frame" x="232" y="367" width="68" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsMultipleSelection="YES" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="f8P-cl-zkD">
+                                <rect key="frame" x="-7" y="410" width="327" height="114"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="糖尿病护士" id="YE1-JW-ozk"/>
+                    <connections>
+                        <outlet property="bloodSugarRecordBtn" destination="E4o-5R-hF0" id="7Xq-gS-viA"/>
+                        <outlet property="homeView" destination="otM-xk-tkH" id="Wkf-Qp-Zls"/>
+                        <outlet property="myDataBtn" destination="rkV-1G-3BP" id="Ly9-ff-NLk"/>
+                        <outlet property="myQuestionBtn" destination="tD0-H7-HSz" id="q16-bI-Qo3"/>
+                        <outlet property="tableView" destination="f8P-cl-zkD" id="DU5-u3-rSE"/>
+                        <outlet property="useMedicinePlanBtn" destination="ple-VL-Paw" id="NLB-Cf-dro"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vh0-eP-qg4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-218" y="-1232"/>
+        </scene>
+        <!--百科-->
+        <scene sceneID="bU0-Jg-QLJ">
+            <objects>
+                <navigationController id="IxS-0K-jfg" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="百科" image="box_gray" id="mdp-e5-gFY"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="A4A-hW-Aki">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="kBW-lg-lNU" kind="relationship" relationship="rootViewController" id="FhP-mx-s2u"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yy9-tP-vNq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-420" y="-605"/>
+        </scene>
+        <!--百科-->
+        <scene sceneID="QgE-5B-xOF">
+            <objects>
+                <viewController id="kBW-lg-lNU" customClass="SubjectsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="rJ5-Zl-T5q"/>
+                        <viewControllerLayoutGuide type="bottom" id="Zta-6J-edw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pnK-0e-Bqx">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="pca-6Z-gG2">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.80214707169999999" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="百科" id="e2c-UM-gLE"/>
+                    <connections>
+                        <outlet property="tableView" destination="pca-6Z-gG2" id="PY0-IP-Ek1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="a2j-vb-7eW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="116" y="-650"/>
+        </scene>
+        <!--Tab Bar View Controller-->
+        <scene sceneID="yl2-sM-qoP">
+            <objects>
+                <tabBarController storyboardIdentifier="Main" id="49e-Tb-3d3" customClass="TabBarViewController" sceneMemberID="viewController">
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
+                        <rect key="frame" x="0.0" y="975" width="768" height="49"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="RLQ-f4-mCq" kind="relationship" relationship="viewControllers" id="X8E-tj-FvS"/>
+                        <segue destination="IxS-0K-jfg" kind="relationship" relationship="viewControllers" id="vDf-EL-HqF"/>
+                        <segue destination="Eva-MD-CIs" kind="relationship" relationship="viewControllers" id="HaM-Mm-5BH"/>
+                        <segue destination="zDG-xr-tBr" kind="relationship" relationship="viewControllers" id="kHa-sa-OQi"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1067" y="-203"/>
+        </scene>
+        <!--我的主治医师-->
+        <scene sceneID="1pJ-hm-JEv">
+            <objects>
+                <viewController id="WCF-cG-m9s" customClass="MyDoctorViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="C5m-gt-A6W"/>
+                        <viewControllerLayoutGuide type="bottom" id="M8T-69-ONi"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="VWG-Kj-dxe">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.87363417830000001" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="我的主治医师" id="eaX-pO-a3T"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xr4-La-m6I" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="36" y="240"/>
+        </scene>
+        <!--我的主治医师-->
+        <scene sceneID="bHK-yo-XI6">
+            <objects>
+                <navigationController id="Eva-MD-CIs" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="我的主治医师" image="my_doctor_gray" id="QKN-dP-HjF"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="edS-mA-5me">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="WCF-cG-m9s" kind="relationship" relationship="rootViewController" id="5Gb-Yf-wKc"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RbU-NL-tEq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-379" y="240"/>
+        </scene>
+        <!--我的-->
+        <scene sceneID="KxT-mG-kuk">
+            <objects>
+                <navigationController id="zDG-xr-tBr" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="我的" image="user_gray" id="lTC-v8-mx6"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="kr4-Ip-TvB">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Qv2-XD-IvO" kind="relationship" relationship="rootViewController" id="RFF-BO-9Rg"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wZr-3h-ht8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1115" y="585"/>
+        </scene>
+        <!--我的-->
+        <scene sceneID="ngl-aN-cNC">
+            <objects>
+                <viewController id="Qv2-XD-IvO" customClass="MineViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="YT1-mV-gOn"/>
+                        <viewControllerLayoutGuide type="bottom" id="TxS-Zb-pgc"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="VOe-3e-2Am">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3uf-vb-knS">
+                                <rect key="frame" x="0.0" y="64" width="320" height="160"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="BANNER_BG " translatesAutoresizingMaskIntoConstraints="NO" id="2UB-9K-cYQ">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="160"/>
+                                    </imageView>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jW3-j4-RXm">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="190"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DvQ-QB-yxh">
+                                                <rect key="frame" x="97" y="119" width="126" height="30"/>
+                                                <state key="normal" backgroundImage="gold-_bg">
+                                                    <color key="titleColor" red="0.29411764705882354" green="0.75686274509803919" blue="0.82352941176470584" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="ruleAction:" destination="Qv2-XD-IvO" eventType="touchUpInside" id="IJw-0U-nSS"/>
+                                                </connections>
+                                            </button>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Eag-Qn-KET">
+                                                <rect key="frame" x="122" y="25" width="78" height="78"/>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fb8-vf-kuT">
+                                                <rect key="frame" x="15" y="60" width="93" height="21"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <color key="textColor" red="0.30980392159999998" green="0.56078431370000004" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.94117647058823528" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="我的" id="4xV-86-R1J"/>
+                    <connections>
+                        <outlet property="UserNameLab" destination="Fb8-vf-kuT" id="MOf-DX-M7e"/>
+                        <outlet property="coinBtn" destination="DvQ-QB-yxh" id="sab-zs-uFp"/>
+                        <outlet property="headerView" destination="3uf-vb-knS" id="6iw-nV-clv"/>
+                        <outlet property="headimg" destination="Eag-Qn-KET" id="J2a-Ox-GL7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="w4U-xa-Md3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-707" y="692"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="BANNER_BG " width="320" height="160"/>
+        <image name="ask_a_doctor" width="68" height="68"/>
+        <image name="blue_line" width="320" height="5"/>
+        <image name="box_gray" width="23" height="23"/>
+        <image name="free_question" width="68" height="68"/>
+        <image name="glucose_record" width="68" height="68"/>
+        <image name="gold-_bg" width="125" height="30"/>
+        <image name="home_banner_" width="320" height="103"/>
+        <image name="home_gray" width="23" height="23"/>
+        <image name="my_data" width="68" height="68"/>
+        <image name="my_doctor_gray" width="23" height="23"/>
+        <image name="regimen" width="68" height="68"/>
+        <image name="renowned_experts" width="68" height="68"/>
+        <image name="user_gray" width="23" height="23"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+    <color key="tintColor" red="0.11764705882352941" green="0.11764705882352941" blue="0.11764705882352941" alpha="1" colorSpace="calibratedRGB"/>
+</document>

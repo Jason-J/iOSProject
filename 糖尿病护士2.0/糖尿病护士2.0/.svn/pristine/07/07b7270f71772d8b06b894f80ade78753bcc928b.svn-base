@@ -1,0 +1,164 @@
+//
+//  MainViewController.m
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-11-19.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "MainViewController.h"
+
+@interface MainViewController ()<UITableViewDataSource, UITableViewDelegate,UITabBarControllerDelegate>
+@property (weak, nonatomic) IBOutlet UIButton *bloodSugarRecordBtn;
+@property (weak, nonatomic) IBOutlet UIButton *alarmClockRemindBtn;
+@property (weak, nonatomic) IBOutlet UIButton *useMedicinePlanBtn;
+@property (weak, nonatomic) IBOutlet UIButton *consultDoctorBtn;
+@property (weak, nonatomic) IBOutlet UIButton *myDataBtn;
+@property (weak, nonatomic) IBOutlet UIButton *myQuestionBtn;
+@property (weak, nonatomic) IBOutlet UIButton *mySearchBtn;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIView *homeView;
+
+@end
+
+@implementation MainViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    [_tableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+    [_tableView setSeparatorColor:[UIColor colorWithRed:225.0/255 green:225.0/255 blue:225.0/255 alpha:1]];
+//    [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"reuse"];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma  mark- UITableView Delegare
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *str = @"reuse";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:str];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:str];
+        cell.textLabel.font = [UIFont systemFontOfSize:15];
+        cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
+        cell.textLabel.textColor = [UIColor colorWithRed:34/255.0 green:34/255.0 blue:34/255.0 alpha:1];
+        cell.detailTextLabel.textColor = [UIColor colorWithRed:113/255.0 green:113/255.0 blue:113/255.0 alpha:1];
+    }
+    if (indexPath.row == 0) {
+        cell.imageView.image = [UIImage imageNamed:@"system_message"];
+        cell.textLabel.text = @"系统消息提示";
+        cell.detailTextLabel.text= @"热门医生推荐、专家回复查询";
+    } else if (indexPath.row == 1) {
+        cell.textLabel.text = @"我的历史问题";
+        cell.detailTextLabel.text= @"查看询问医生的问题详情";
+        cell.imageView.image = [UIImage imageNamed:@"historical_issues"];
+    } else if (indexPath.row == 2) {
+        cell.textLabel.text = @"图文咨询";
+        cell.imageView.image = [UIImage imageNamed:@"photo_advisory"];
+        cell.detailTextLabel.text= @"您已购买的图文咨询，快去向医师提问吧";
+    }
+
+    return cell;
+
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 3;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 55.0;
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [_tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row == 0) {
+        UIStoryboard *SystemPromptSB = [UIStoryboard storyboardWithName:@"SystemPrompt" bundle:nil];
+        UIViewController *SystemPromptVC = [SystemPromptSB instantiateViewControllerWithIdentifier:@"SystemPrompt"];
+        SystemPromptVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:SystemPromptVC animated:YES];
+    }
+    if (indexPath.row == 1) {
+        UIStoryboard *myHistorySB = [UIStoryboard storyboardWithName:@"MyHistoryQuestion" bundle:nil];
+        UIViewController *myHistoryVC = [myHistorySB instantiateViewControllerWithIdentifier:@"MyHistoryQuestion"];
+        myHistoryVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:myHistoryVC animated:YES];
+    }
+}
+- (IBAction)bloodSugarBtnAction:(id)sender {
+    UIStoryboard *bloodSugarSB = [UIStoryboard storyboardWithName:@"BloodSugarRecord"bundle:nil];
+    UIViewController *bloodSugarVC = [bloodSugarSB instantiateViewControllerWithIdentifier:@"BloodSugarRecord"];
+    bloodSugarVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:bloodSugarVC animated:YES];
+}
+- (IBAction)consultDoctorBtnAction:(id)sender {
+    UIStoryboard *consultDoctorSB = [UIStoryboard storyboardWithName:@"ConsultDoctor" bundle:nil];
+    UIViewController *consultVC = [consultDoctorSB instantiateViewControllerWithIdentifier:@"ConsultDoctor"];
+    consultVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:consultVC animated:YES];
+}
+- (IBAction)alarmClockBtnAction:(id)sender {
+    UIStoryboard *alarmClockSB = [UIStoryboard storyboardWithName:@"AlarmClockRemind" bundle:nil];
+    UIViewController *alarmClockRemindVC =[alarmClockSB instantiateViewControllerWithIdentifier:@"AlarmClockRemind"];
+    alarmClockRemindVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:alarmClockRemindVC animated:YES];
+    
+}
+- (IBAction)useMedicineBtnAction:(id)sender {
+    UIStoryboard *useMedicineSB = [UIStoryboard storyboardWithName:@"UseMedicinePlan" bundle:nil];
+    UIViewController *useMedicineVC =[useMedicineSB instantiateViewControllerWithIdentifier:@"UsePlanViewController"];
+    useMedicineVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:useMedicineVC animated:YES];
+}
+- (IBAction)myDataBtnAction:(id)sender {
+    UIStoryboard *myDataSB = [UIStoryboard storyboardWithName:@"MyData" bundle:nil];
+    UIViewController *myDataVC = [myDataSB instantiateViewControllerWithIdentifier:@"MyData"];
+    myDataVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:myDataVC animated:YES];
+    
+}
+- (IBAction)famousExpertBtnAction:(id)sender {
+    UIStoryboard *famousExpertSB = [UIStoryboard storyboardWithName:@"FamousExpert" bundle:nil];
+    UIViewController *famousExpertVC = [famousExpertSB instantiateViewControllerWithIdentifier:@"FamousExpertt"];
+    famousExpertVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:famousExpertVC animated:YES];
+}
+- (IBAction)myQuestionBtnAction:(id)sender {
+    UIStoryboard *myQuestionSB = [UIStoryboard storyboardWithName:@"MyQuestion" bundle:nil];
+    UIViewController *myQuestionVC = [myQuestionSB instantiateViewControllerWithIdentifier:@"MyQuestion"];
+    myQuestionVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:myQuestionVC animated:YES];
+    
+}
+- (IBAction)mySearchBtnAction:(id)sender {
+    UIStoryboard *mySearchSB = [UIStoryboard storyboardWithName:@"MySearch" bundle:nil];
+    UIViewController *mySearchVC = [mySearchSB instantiateViewControllerWithIdentifier:@"MySearch"];
+    mySearchVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:mySearchVC animated:YES];
+}
+
+-(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{
+    UIStoryboard *mineSB = [UIStoryboard storyboardWithName:@"AllSubjects" bundle:nil];
+    UIViewController *mineVC = [mineSB instantiateViewControllerWithIdentifier:@"Subject"];
+    if (self.tabBarController.selectedIndex ==1) {
+        viewController = mineVC;
+    }
+
+}
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

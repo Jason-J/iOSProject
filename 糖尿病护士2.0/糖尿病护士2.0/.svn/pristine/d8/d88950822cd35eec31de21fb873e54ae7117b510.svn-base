@@ -1,0 +1,18 @@
+//
+//  Question.m
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-12-9.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "Question.h"
+
+@implementation Question
+- (void)setValue:(id)value forUndefinedKey:(NSString *)key{
+    if ([key isEqualToString:@"reply"]) {
+        _reply = [[Reply alloc] init];
+        [_reply setValuesForKeysWithDictionary:value];
+    }
+}
+@end

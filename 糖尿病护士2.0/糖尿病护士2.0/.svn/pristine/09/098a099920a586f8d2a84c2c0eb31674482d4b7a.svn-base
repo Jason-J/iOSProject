@@ -1,0 +1,16 @@
+//
+//  MyContactsCell.h
+//  TangNiaoBingHuShi
+//
+//  Created by qimingfang-dwk on 14/12/4.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface MyContactsCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *nameLab;
+@property (weak, nonatomic) IBOutlet UILabel *contactLab;
+@property (weak, nonatomic) IBOutlet UILabel *mobileLab;
+
+@end

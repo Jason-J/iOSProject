@@ -1,0 +1,51 @@
+//
+//  Medicine.m
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-12-3.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "Medicine.h"
+
+@implementation Medicine
+#pragma  mark- 纠错
+-(void)setValue:(id)value forUndefinedKey:(NSString *)key
+{
+    if ([key isEqualToString:@"id"]) {
+        self.auto_id = value;
+    }
+    if ([key isEqualToString:@"timeid"]) {
+        self.useMedicineTime = value;
+    }
+    if ([key isEqualToString:@"num"]) {
+        self.dose = value;
+    }
+}
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    if (self) {
+        self.auto_id = [aDecoder decodeObjectForKey:@"auto_id"];
+        self.medicine_name = [aDecoder decodeObjectForKey:@"medicine_name"];
+        self.useMedicineTime = [aDecoder decodeObjectForKey:@"useMedicineTime"];
+        self.dose = [aDecoder decodeObjectForKey:@"dose"];
+        self.uid = [aDecoder decodeObjectForKey:@"uid"];
+        self.addTime = [aDecoder decodeObjectForKey:@"addTime"];
+        
+
+    }
+    return self;
+}
+-(void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:_auto_id forKey:@"auto_id"];
+    [aCoder encodeObject:_medicine_name forKey:@"medicine_name"];
+    [aCoder encodeObject:_useMedicineTime forKey:@"useMedicineTime"];
+    [aCoder encodeObject:_dose forKey:@"dose"];
+    [aCoder encodeObject:_uid forKey:@"uid"];
+    [aCoder encodeObject:_addTime forKey:@"addTime"];
+     
+}
+
+@end

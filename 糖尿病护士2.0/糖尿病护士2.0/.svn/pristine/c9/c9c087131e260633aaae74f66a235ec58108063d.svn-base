@@ -1,0 +1,27 @@
+//
+//  MyDoctorHeaderView.m
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-12-1.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "MyDoctorHeaderView.h"
+#import "CertifyViewController.h"
+
+
+@implementation MyDoctorHeaderView
+
+- (void)awakeFromNib {
+    // Initialization code
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+
+
+
+@end

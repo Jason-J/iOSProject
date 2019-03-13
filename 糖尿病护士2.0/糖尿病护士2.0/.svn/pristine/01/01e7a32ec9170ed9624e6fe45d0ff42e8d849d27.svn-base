@@ -1,0 +1,138 @@
+//
+//  MyDoctorTableViewController.m
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-12-1.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "MyDoctorTableViewController.h"
+#import "DoctorTableViewCell.h"
+#import "MyDoctorDetailViewController.h"
+@interface MyDoctorTableViewController (){
+    NSMutableArray * tableArray;
+}
+@end
+@implementation MyDoctorTableViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    tableArray = [[NSMutableArray alloc] init];
+    [self getMyDoctorRequest];
+    // Uncomment the following line to preserve selection between presentations.
+    // self.clearsSelectionOnViewWillAppear = NO;
+    
+    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+   
+}
+#warning 测试环境 上线需改
+- (void)getMyDoctorRequest{
+    NSURL * url = [NSURL URLWithString:@"http://test.tanghushi.com/api/mobile/?module=expert&op=mylist"];
+    NSURLRequest * request = [NSURLRequest requestWithURL:url];
+    AFHTTPRequestOperation * operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSString *requestTmp = [NSString stringWithString:operation.responseString];
+        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+        id object = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+        NSArray * array = [[object objectForKey:@"Variables"] objectForKey:@"value"];
+        for (NSDictionary * dic in array) {
+            Doctor * doctor = [[Doctor alloc] init];
+            [doctor setValuesForKeysWithDictionary:dic];
+            [tableArray addObject:doctor];
+            [self.tableView reloadData];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"error==%@",error);
+    }];
+    [operation start];
+}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+#warning Potentially incomplete method implementation.
+    // Return the number of sections.
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+#warning Incomplete method implementation.
+    // Return the number of rows in the section.
+    return tableArray.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *str = @"doctorCell";
+    DoctorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:str];
+    if (!cell) {
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"MyDoctorTableViewCell" owner:self options:nil]lastObject];
+    }
+    
+    [cell configureForModel:[tableArray objectAtIndex:indexPath.row]];
+    // Configure the cell...
+    
+    return cell;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 110;
+}
+#pragma  mark- tableView cell 点击方法
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MyDoctorDetailViewController *myDoctorDetailVC = [[MyDoctorDetailViewController alloc] initWithNibName:@"MyDoctorDetailViewController" bundle:[NSBundle mainBundle]];
+    myDoctorDetailVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:myDoctorDetailVC animated:YES];
+    
+}
+/*
+// Override to support conditional editing of the table view.
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return NO if you do not want the specified item to be editable.
+    return YES;
+ 
+}
+*/
+
+/*
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the row from the data source
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }   
+}
+*/
+
+/*
+// Override to support rearranging the table view.
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+}
+*/
+
+/*
+// Override to support conditional rearranging of the table view.
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return NO if you do not want the item to be re-orderable.
+    return YES;
+}
+*/
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

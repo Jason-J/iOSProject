@@ -1,0 +1,214 @@
+//
+//  MyQuestionDetailViewController.m
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-12-10.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "MyQuestionDetailViewController.h"
+#import "CellForPatientQuestion.h"
+#import "CellForOnlyImage.h"
+#import "KGModal.h"
+#import "ChatView.h"
+
+
+
+@interface MyQuestionDetailViewController ()<ChatViewDelegate>
+@property (nonatomic, strong) NSMutableArray *tableViewMArr;
+@property (nonatomic, copy) NSString *prompt;
+@property (nonatomic, strong)ChatView *chatView;
+@end
+
+@implementation MyQuestionDetailViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.title = @"问题详情";
+    _tableViewMArr = [[NSMutableArray alloc] init];
+    // Uncomment the following line to preserve selection between presentations.
+    // self.clearsSelectionOnViewWillAppear = NO;
+    
+    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
+    tap.numberOfTapsRequired = 1;
+    tap.numberOfTouchesRequired = 1;
+    
+    [self.tableView addGestureRecognizer:tap];
+    
+    _chatView = [[[NSBundle mainBundle] loadNibNamed:@"ChatView" owner:self options:nil]lastObject];
+    _chatView.frame = CGRectMake(0, SCREEN_HEIGHT - 110, SCREEN_WIDTH, 44);
+    _chatView.delegate = self;
+    [self.view addSubview:_chatView];
+    [_chatView showingDeleteConfirmation];
+}
+#pragma  mark- chatView delegate
+-(void)sendMessageWith:(NSString *)str
+{
+    [_chatView hidenKeyboard];
+    [self.view addSubview:_chatView];
+    [UIView animateWithDuration:0.3 animations:^{
+        self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    }];
+    [self.view addSubview:_chatView];
+    
+
+}
+-(void)tapAction:(UITapGestureRecognizer *)tap
+{
+    [_chatView hidenKeyboard];
+    [self.view addSubview:_chatView];
+    [UIView animateWithDuration:0.3 animations:^{
+        self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    }];
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self getDataFromServer];
+    
+}
+-(void)setQuestion:(Question *)question
+{
+    if (question!= _question) {
+        _question = question;
+        [self getDataFromServer];
+    }
+}
+#pragma  mark- 请求数据
+-(void)getDataFromServer
+{
+    JSNetWorking *network = [[JSNetWorking alloc] init];
+#warning 测试地址 上线需改
+    NSString *url = [NSString stringWithFormat:@"http://test.tanghushi.com/api/mobile/?version=2&module=question&op=show&qid=%@",_question.qid];
+    [network getRequestWithURLStr:url success:^(id ResultData) {
+        NSLog(@"%@",ResultData);
+        NSArray *tempArr = [[[ResultData objectForKey:@"Variables"] objectForKey:@"value"] objectForKey:@"question"];
+        _prompt = [[[ResultData objectForKey:@"Variables"] objectForKey:@"value"] objectForKey:@"prompt"];
+        [_tableViewMArr removeAllObjects];
+        
+        for (int i = 0; i < tempArr.count; i++) {
+            Question *question = [[Question alloc] init];
+            [question setValuesForKeysWithDictionary:tempArr[i]];
+            [_tableViewMArr addObject:question];
+            if (question.images) {
+                    Question *questionImage = [[Question alloc] init];
+                    questionImage.imageArr = question.images;
+                    [_tableViewMArr addObject:questionImage];
+            }
+        }
+        [self.tableView reloadData];
+    } failure:^(NSError *error, AFHTTPRequestOperation *operation) {
+        
+    }];
+}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recrea8ted.
+}
+
+#pragma mark - Table view data source
+
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Question *question = [_tableViewMArr objectAtIndex:indexPath.row];
+    static NSString *str = @"reuse";
+    CellForOnlyImage *cell = nil;
+    if (!question.imageArr) {
+        if (!cell) {
+            [tableView registerNib:[UINib nibWithNibName:@"CellForPatientQuestion" bundle:[NSBundle mainBundle]]forCellReuseIdentifier:str];
+              cell = [[[NSBundle mainBundle] loadNibNamed:@"CellForPatientQuestion" owner:self options:nil] lastObject];
+        }
+        cell.question = question;
+        return cell;
+    } else if (question.imageArr)
+        {
+            if (!cell) {
+                [tableView registerNib:[UINib nibWithNibName:@"CellForOnlyImage" bundle:[NSBundle mainBundle]]forCellReuseIdentifier:str];
+                cell = [[[NSBundle mainBundle] loadNibNamed:@"CellForOnlyImage" owner:self options:nil] lastObject];
+            }
+            cell.question = question;
+            [cell valueOfImageView:^(UIImageView *imageView) {
+                NSLog(@"%@", imageView);
+                //点击放大
+                [self bigImageAction:imageView];
+            }];
+            return cell;
+    }
+    return cell;
+}
+#pragma  mark- 点击图片放大方法
+-(void)bigImageAction:(UIImageView *)imageView
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(10, 70, SCREEN_WIDTH -20, SCREEN_HEIGHT- 70)];
+    UIImageView *bigImageView = [[UIImageView alloc] initWithImage:imageView.image];
+    bigImageView.frame = CGRectMake(0, 0, SCREEN_WIDTH - 20, imageView.frame.size.height * (SCREEN_WIDTH - 20) / imageView.frame.size.width);
+    view.frame = CGRectMake(10, 70, SCREEN_WIDTH - 20, bigImageView.frame.size.height);
+    [view addSubview:bigImageView];
+    view.backgroundColor = [UIColor redColor];
+    [[KGModal sharedInstance] showWithContentView:view andAnimated:YES];
+    
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+#warning Incomplete method implementation.
+    // Return the number of rows in the section.
+    return _tableViewMArr.count;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 150;
+}
+
+
+
+
+/*
+// Override to support conditional editing of the table view.
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return NO if you do not want the specified item to be editable.
+    return YES;
+}
+*/
+
+/*
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the row from the data source
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }   
+}
+*/
+
+/*
+// Override to support rearranging the table view.
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+}
+*/
+
+/*
+// Override to support conditional rearranging of the table view.
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return NO if you do not want the item to be re-orderable.
+    return YES;
+}
+*/
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

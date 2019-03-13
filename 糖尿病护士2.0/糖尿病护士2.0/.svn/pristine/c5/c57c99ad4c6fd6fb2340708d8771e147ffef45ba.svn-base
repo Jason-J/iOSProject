@@ -1,0 +1,19 @@
+//
+//  HistoryPlanDetailViewController.h
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-12-8.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "UseMedicinePlan.h"
+
+typedef void(^SUCCESSBLOCK)(void);
+@interface HistoryPlanDetailViewController : UITableViewController
+@property (nonatomic, copy) SUCCESSBLOCK successBlock;
+
+@property(nonatomic, strong) UseMedicinePlan *project;
+
+-(void)valueOfSuccessBlock:(SUCCESSBLOCK)successBlock;
+@end

@@ -1,0 +1,35 @@
+//
+//  Doctor.h
+//  TangNiaoBingHuShi
+//
+//  Created by qimingfang-dwk on 14/11/20.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface Doctor : NSObject
+@property (nonatomic, copy) NSString *uid;
+@property (nonatomic, copy) NSString *username;
+@property (nonatomic, copy) NSString *realname;
+@property (nonatomic, copy) NSString *gender;
+@property (nonatomic, copy) NSString *residedist;
+@property (nonatomic, copy) NSString *resideprovince;
+@property (nonatomic, copy) NSString *residecity;
+@property (nonatomic, copy) NSString *residesuite;
+@property (nonatomic, copy) NSString *credential;
+@property (nonatomic, copy) NSString *achievement;//学术研究
+@property (nonatomic, copy) NSString *section;//科室
+@property (nonatomic, copy) NSString *speciality;//擅长诊所
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *hospital;
+@property (nonatomic, copy) NSString *mobile;
+@property (nonatomic, copy) NSString *headimg;//头像
+@property (nonatomic, copy) NSString * relation;//绑定状态
+@property (nonatomic, copy) NSString * totalcomment; //总体评价
+@property (nonatomic, copy) NSString * towards;//服务态度
+@property (nonatomic, copy) NSString * binding_money; //身价
+@property (nonatomic, copy) NSString * indexpath;
+@property (nonatomic,copy) NSString * graduateschool;//教育背景
+@property (nonatomic,copy)NSString * consult_count;//图文咨询价格
+@end

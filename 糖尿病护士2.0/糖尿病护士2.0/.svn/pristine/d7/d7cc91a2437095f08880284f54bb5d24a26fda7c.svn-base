@@ -1,0 +1,34 @@
+//
+//  CommonSettings.h
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-12-23.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+//
+// 根据不同的测试类型返回不同的服务器接口根目录
+//
+typedef NS_ENUM(NSUInteger, SettingsBaseURLType) {
+    SettingsBaseURLTypeDEBUG = 0,
+    SettingsBaseURLTypeInnerTest = 1,
+    SettingsBaseURLTypePreRelease = 2,
+    SettingsBaseURLTypeRelease,
+};
+
+
+@interface CommonSettings : NSObject
+
++ (instancetype)sharedSettings;
+
+@property(nonatomic, strong, getter=getSessionCookieName) NSString *sessionCookieName;
+
++ (void)setTestMode:(SettingsBaseURLType)testMode;
++ (NSInteger)getTestMode;
++ (NSString *)BaseURL:(SettingsBaseURLType)settingsTestType;
++ (NSString *)baseUrl:(SettingsBaseURLType)settingTestType version:(NSInteger)version module:(NSString *)module parameters:(NSDictionary *)parameters;
++ (NSString *)baseUrlWithVersion:(NSInteger)version module:(NSString *)module parameters:(NSDictionary *)parameters;
+
+@end

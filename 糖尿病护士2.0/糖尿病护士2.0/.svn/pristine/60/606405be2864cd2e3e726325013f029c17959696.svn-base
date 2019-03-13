@@ -1,0 +1,154 @@
+//
+//  SubjectsViewController.m
+//  TangNiaoBingHuShi
+//
+//  Created by qimingfang-dwk on 14/11/26.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "SubjectsViewController.h"
+#import "CellForSubjects.h"
+#import "Subjects.h"
+#import "CycleScrollView.h"
+#import "UIImageView+WebCache.h"
+#import "Macros.h"
+#import "SubjectsListViewController.h"
+#import "SubjectsDetailsViewController.h"
+static NSString * baseURL;
+@interface SubjectsViewController ()<UITableViewDataSource,UITableViewDelegate>{
+    NSMutableArray * _tableArray;
+//    HomeView *mHomeView;
+//    ScrollPageView * scroll;
+}
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic , strong) CycleScrollView *mainScorllView;
+
+@end
+
+@implementation SubjectsViewController
+
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+//    [self initView];
+    // Do any additional setup after loading the view.
+    _tableArray = [[NSMutableArray alloc] init];
+
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    _tableView.rowHeight = 110;
+    [self getSubjectRequest];
+    [self getCycleScrollRequest];
+    
+    self.mainScorllView = [[CycleScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 150) animationDuration:2];
+    self.mainScorllView.backgroundColor = [UIColor whiteColor];
+    self.tableView.tableHeaderView = self.mainScorllView;
+    self.mainScorllView.pc.hidden = YES;
+ 
+}
+
+#pragma mark - request
+-(void)getSubjectRequest{
+    JSNetWorking * js = [[JSNetWorking alloc] init];
+    NSString * url = [CommonSettings baseUrlWithVersion:2 module:@"wiki" parameters:@{@"op":@"category"}];
+    [js getRequestWithURLStr:url success:^(id ResultData) {
+        id value = [[ResultData objectForKey:@"Variables"] objectForKey:@"value"];
+        [_tableArray removeAllObjects];
+        [_tableArray addObjectsFromArray:value];
+        [_tableView reloadData];
+    } failure:^(NSError *error, AFHTTPRequestOperation *operation) {
+        NSLog(@"error = %@",error);
+    }];
+}
+-(void)getCycleScrollRequest{
+    JSNetWorking * js = [[JSNetWorking alloc] init];
+    NSString * url = [CommonSettings baseUrlWithVersion:2 module:@"wiki" parameters:@{@"op":@"getimages"}];
+    [js getRequestWithURLStr:url success:^(id ResultData) {
+        id value = [[ResultData objectForKey:@"Variables"] objectForKey:@"value"];
+        NSMutableArray * titleArr = [[NSMutableArray alloc] init];
+        NSMutableArray * imageArr = [[NSMutableArray alloc] init];
+        NSMutableArray * aidArr = [[NSMutableArray alloc] init];
+        for (NSDictionary * dic in value) {
+            [titleArr addObject:[dic objectForKey:@"title"]];
+            [imageArr addObject:[dic objectForKey:@"pic"]];
+            [aidArr addObject:[dic objectForKey:@"aid"]];
+        }
+        [self cycleScrollViewWithimage:imageArr andTitle:titleArr andAid:aidArr];
+    } failure:^(NSError *error, AFHTTPRequestOperation *operation) {
+        NSLog(@"error = %@",error);
+    }];
+}
+#pragma mark - 轮播
+- (void)cycleScrollViewWithimage:(NSArray *)imagearray andTitle:(NSArray *)titleArray andAid:(NSArray *)aidArray{
+    NSMutableArray * array = [@[] mutableCopy];
+    for (int i = 0; i < 5; i++) {
+        UIImageView * view= [[UIImageView alloc] initWithFrame:CGRectMake(i * 320, 0, 320, 150)];
+        view.userInteractionEnabled = YES;
+        UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(0, 120, 320, 30)];
+        title.backgroundColor = [UIColor blackColor];
+        [title setTextColor:[UIColor whiteColor]];
+        title.alpha = 0.4;
+        [title setFont:[UIFont fontWithName:@"Helvetica-Bold" size:16]];
+        [view addSubview:title];
+        
+        NSString * string = [NSString stringWithFormat:@"     %@",titleArray[i]];
+        title.text = string;
+        [view sd_setImageWithURL:[NSURL URLWithString:imagearray[i]]];
+        [array addObject:view];
+        self.mainScorllView.pc.hidden= NO;
+//        UINavigationController * na = [[UINavigationController alloc] init];
+    }
+    __weak typeof(self)weakSelf = self;
+    weakSelf.mainScorllView.fetchContentViewAtIndex = ^UIView * (NSInteger pageIndex){
+        return array[pageIndex];
+    };
+    weakSelf.mainScorllView.totalPagesCount = ^NSInteger(void){
+        return 5;
+    };
+    weakSelf.mainScorllView.TapActionBlock = ^(NSInteger pageIndex){
+        SubjectsDetailsViewController * subjectsDetailsVC = [[SubjectsDetailsViewController alloc] init];
+        subjectsDetailsVC.aaid = aidArray[pageIndex];
+        [self.navigationController pushViewController:subjectsDetailsVC animated:YES];
+    };
+}
+#pragma mark - tableviewdelegate
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return _tableArray.count;
+}
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString * ce = @"subjectcell";
+    CellForSubjects * cell = (CellForSubjects *)[tableView dequeueReusableCellWithIdentifier:ce];
+
+    if (!cell) {
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"CellForSubject" owner:self options:nil] lastObject];
+    }
+    [cell.ima sd_setImageWithURL:[NSURL URLWithString:[[_tableArray objectAtIndex:indexPath.row] objectForKey:@"images"]]];
+    cell.titileLab.text = [[_tableArray objectAtIndex:indexPath.row] objectForKey:@"new_title"];
+    cell.summaryLab.text = [[_tableArray objectAtIndex:indexPath.row] objectForKey:@"new_summary"];
+    [cell.imagee sd_setImageWithURL:[NSURL URLWithString:[[_tableArray objectAtIndex:indexPath.row] objectForKey:@"tag"]]];
+    return cell;
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    UIStoryboard * subjectslistSB = [UIStoryboard storyboardWithName:@"AllSubjects" bundle:nil];
+    SubjectsListViewController * subjectslistVC = (SubjectsListViewController *)[subjectslistSB instantiateViewControllerWithIdentifier:@"subjectslist"];
+    subjectslistVC.catid = [_tableArray[indexPath.row] objectForKey:@"catid"];
+    subjectslistVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:subjectslistVC animated:YES];
+
+}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

@@ -1,0 +1,71 @@
+//
+//  TabBarViewController.m
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-11-19.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "TabBarViewController.h"
+
+@interface TabBarViewController (){
+    NSArray * array1;
+    NSArray * array2;
+}
+@end
+
+@implementation TabBarViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+
+    [super viewDidLoad];
+    array1 = [[NSArray alloc] initWithObjects:@"abcde", nil];
+    array2 = [[NSArray alloc] initWithObjects:@"123abc", nil];
+    {
+    }
+    NSLog(@"\narray1 : %@\n array2 : %@",array1,array2);
+
+    self.tabBar.selectedImageTintColor= [UIColor colorWithRed:75/255.0 green:193/255.0 blue:210.0/255 alpha:1];
+//   [[[self.viewControllers[1] navigationController]navigationBar]barTintColor] = RGB(75, 193, 210);
+    for (int i = 0; i < 4; i++) {
+        UINavigationController *navi = self.viewControllers[i];
+//        navi.navigationBar.barTintColor = RGB(75, 193, 210);
+        
+        [navi.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:RGB(30, 30, 30),UITextAttributeTextColor,nil]];
+        if (i == 0) {
+            navi.tabBarItem.selectedImage = [UIImage imageNamed:@"home"];
+        }
+        if (i == 1) {
+            navi.tabBarItem.selectedImage = [UIImage imageNamed:@"box"];
+        }
+        if (i == 2) {
+            navi.tabBarItem.selectedImage = [UIImage imageNamed:@"my_doctor"];
+        }
+        if (i == 3) {
+            navi.tabBarItem.selectedImage = [UIImage imageNamed:@"user"];
+        }
+        
+    }
+
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

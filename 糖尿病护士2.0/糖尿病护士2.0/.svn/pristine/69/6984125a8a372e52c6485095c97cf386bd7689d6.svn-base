@@ -1,0 +1,16 @@
+//
+//  Doctor.m
+//  TangNiaoBingHuShi
+//
+//  Created by qimingfang-dwk on 14/11/20.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "Doctor.h"
+
+@implementation Doctor
+-(void)setValue:(id)value forUndefinedKey:(NSString *)key
+{
+    
+}
+@end

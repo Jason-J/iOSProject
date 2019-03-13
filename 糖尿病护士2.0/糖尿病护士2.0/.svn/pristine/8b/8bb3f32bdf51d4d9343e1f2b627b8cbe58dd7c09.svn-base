@@ -1,0 +1,103 @@
+//
+//  User.m
+//  TangNiaoBingHuShi
+//
+//  Created by qimingfang-dwk on 14/11/21.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "User.h"
+
+@implementation User
+
+//属性纠错
+- (void)setValue:(id)value forUndefinedKey:(NSString *)key{
+    
+}
+
+-(void)encodeWithCoder:(NSCoder *)aCoder
+{
+    
+    [aCoder encodeObject:_content forKey:@"content"];
+    [aCoder encodeObject:_userType forKey:@"userType"];
+    [aCoder encodeObject:_member_uid forKey:@"member_uid"];
+    [aCoder encodeObject:_member_username forKey:@"member_username"];
+    [aCoder encodeObject:_groupid forKey:@"groupid"];
+    [aCoder encodeObject:_cookiepre forKey:@"cookiepre"];
+    [aCoder encodeObject:_headimg forKey:@"image"];
+    [aCoder encodeObject:_userAccount forKey:@"userAccount"];
+    [aCoder encodeObject:_userPassword forKey:@"userPassword"];
+    [aCoder encodeObject:_realname forKey:@"realname"];
+    [aCoder encodeObject:_username forKey:@"username"];
+    [aCoder encodeObject:_gender forKey:@"gender"];
+    [aCoder encodeObject:_resideprovince forKey:@"resideprovince"];
+    [aCoder encodeObject:_sightml forKey:@"sightml"];
+    [aCoder encodeObject:_field1 forKey:@"field1"];
+    [aCoder encodeObject:_field2 forKey:@"field2"];
+    [aCoder encodeObject:_addtime forKey:@"addtime"];
+    [aCoder encodeObject:_images forKey:@"images"];
+    [aCoder encodeObject:_location forKey:@"location"];
+    [aCoder encodeObject:_num forKey:@"num"];
+    [aCoder encodeObject:_cookiepre forKey:@"cookiepre"];
+    [aCoder encodeObject:_email forKey:@"email"];
+    [aCoder encodeObject:_mobile forKey:@"mobile"];
+    [aCoder encodeObject:_height forKey:@"height"];
+    [aCoder encodeObject:_weight forKey:@"weight"];
+    [aCoder encodeObject:_idcard forKey:@"idcard"];
+    [aCoder encodeObject:_credits forKey:@"credits"];
+    [aCoder encodeObject:_golds forKey:@"golds"];
+    [aCoder encodeObject:_family_history forKey:@"family_history"];
+}
+-(id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    if (self) {
+        //        [self setUserName:[aDecoder decodeObjectForKey:@"userName"]];
+        [self setContent:[aDecoder decodeObjectForKey:@"content"] == nil ? @"" : [aDecoder decodeObjectForKey:@"content"]];
+        [self setUserType:[aDecoder decodeObjectForKey:@"userType"] == nil ? @"" : [aDecoder decodeObjectForKey:@"userType"]];
+        [self setMember_uid:[aDecoder decodeObjectForKey:@"member_uid"] == nil ? @"" : [aDecoder decodeObjectForKey:@"member_uid"]];
+        [self setMember_username:[aDecoder decodeObjectForKey:@"member_username"] == nil ? @"" : [aDecoder decodeObjectForKey:@"member_username"]];
+        [self setGroupid:[aDecoder decodeObjectForKey:@"groupid"] == nil ? @"" : [aDecoder decodeObjectForKey:@"groupid"]];
+        [self setCookiepre:[aDecoder decodeObjectForKey:@"cookiepre"] == nil ? @"" : [aDecoder decodeObjectForKey:@"cookiepre"]];
+        [self setHeadimg:[aDecoder decodeObjectForKey:@"image"] == nil ? @"" : [aDecoder decodeObjectForKey:@"image"]];
+        [self setUserAccount:[aDecoder decodeObjectForKey:@"userAccount"] == nil ? @"" : [aDecoder decodeObjectForKey:@"userAccount"]];
+        [self setUserPassword:[aDecoder decodeObjectForKey:@"userPassword"] == nil ? @"" : [aDecoder decodeObjectForKey:@"userPassword"]];
+        [self setRealname:[aDecoder decodeObjectForKey:@"realname"] == nil ? @"" : [aDecoder decodeObjectForKey:@"realname"]];
+        [self setUsername:[aDecoder decodeObjectForKey:@"username"] == nil ? @"" : [aDecoder decodeObjectForKey:@"username"]];
+        [self setGender:[aDecoder decodeObjectForKey:@"gender"] == nil ? @"" : [aDecoder decodeObjectForKey:@"gender"]];
+        [self setResideprovince:[aDecoder decodeObjectForKey:@"resideprovice"] == nil ? @"" : [aDecoder decodeObjectForKey:@"resideprovice"]];
+        [self setSightml:[aDecoder decodeObjectForKey:@"sightml"] == nil ? @"" : [aDecoder decodeObjectForKey:@"sightml"]];
+        [self setField1:[aDecoder decodeObjectForKey:@"field1"] == nil ? @"" : [aDecoder decodeObjectForKey:@"field1"]];
+        [self setField2:[aDecoder decodeObjectForKey:@"field2"] == nil ? @"" : [aDecoder decodeObjectForKey:@"field2"]];
+        [self setAddtime:[aDecoder decodeObjectForKey:@"addtime"] == nil ? @"" : [aDecoder decodeObjectForKey:@"addtime"]];
+        [self setImages:[aDecoder decodeObjectForKey:@"image"] == nil ? @"" : [aDecoder decodeObjectForKey:@"image"]];
+        [self setLocation:[aDecoder decodeObjectForKey:@"location"] == nil ? @"" : [aDecoder decodeObjectForKey:@"location"]];
+        [self setNum:[aDecoder decodeObjectForKey:@"num"] == nil ? @"" : [aDecoder decodeObjectForKey:@"num"]];
+        [self setCookiepre:[aDecoder decodeObjectForKey:@"cookiepre"] == nil ? @"" : [aDecoder decodeObjectForKey:@"cookiepre"]];
+        [self setEmail:[aDecoder decodeObjectForKey:@"email"] == nil ? @"" : [aDecoder decodeObjectForKey:@"email"]];
+        [self setMobile:[aDecoder decodeObjectForKey:@"mobile"] == nil ? @"" : [aDecoder decodeObjectForKey:@"mobile"]];
+        [self setHeight:[aDecoder decodeObjectForKey:@"height"] == nil ? @"" : [aDecoder decodeObjectForKey:@"height"]];
+        [self setWeight:[aDecoder decodeObjectForKey:@"weight"] == nil ? @"" : [aDecoder decodeObjectForKey:@"weight"]];
+        [self setIdcard:[aDecoder decodeObjectForKey:@"idcard"] == nil ? @"" : [aDecoder decodeObjectForKey:@"idcard"]];
+        [self setCredits:[aDecoder decodeObjectForKey:@"credits"] == nil ? @"" : [aDecoder decodeObjectForKey:@"credits"]];
+        [self setGolds:[aDecoder decodeObjectForKey:@"golds"] == nil ? @"" : [aDecoder decodeObjectForKey:@"golds"]];
+        [self setFamily_history:[aDecoder decodeObjectForKey:@"family_history"] == nil ? @"" : [aDecoder decodeObjectForKey:@"family_history"]];
+        
+    }
+    return self;
+}
+
+//实现单例
++(User *)shareInstance
+{
+    static User *user = nil;
+    if (!user) {
+        user = [[User alloc] init];
+        
+    }
+    return user;
+}
+
+
+
+@end

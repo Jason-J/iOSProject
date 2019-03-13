@@ -1,0 +1,98 @@
+//
+//  MyPlanViewController.m
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-12-2.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "MyPlanViewController.h"
+#import "MyPlanView.h"
+#import "Medicine.h"
+@interface MyPlanViewController () <MyPlanViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UIButton *rightBtn;
+
+@end
+
+@implementation MyPlanViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    if (!_isHistoryPlan) {
+        _rightBtn.hidden = YES;
+    }
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStylePlain];
+    [self.view addSubview:tableView];
+    MyPlanView *headerView = [[[NSBundle mainBundle] loadNibNamed:@"MyPlanView" owner:self options:nil]lastObject];
+    headerView.delegate = self;
+    tableView.tableHeaderView = headerView;
+}
+#pragma  mark- 将返回数据转换成接口形式
+-(void)passValueWithMedicineArr:(NSMutableArray *)array andDateStr:(NSString *)dateStr andPlanName:(NSString *)planName
+{
+    NSMutableArray *data = [[NSMutableArray alloc] init];
+    for (int i = 0 ; i < array.count; i ++) {
+        Medicine *medicine = [array objectAtIndex:i];
+        
+        NSDictionary *tempDic = @{@"medicine":medicine.auto_id, @"num":medicine.dose, @"diet_time":medicine.useMedicineTime};
+        [data addObject:tempDic];
+    }
+    if ([NSJSONSerialization isValidJSONObject:data]) {
+        NSError * error;
+        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:data options:NSJSONWritingPrettyPrinted error:
+                             &error];
+        NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        
+        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:planName , @"name", dateStr,@"starttime", jsonString, @"data", nil];
+            NSDictionary *noDic = [NSDictionary dictionaryWithObjectsAndKeys:planName , @"name", dateStr,@"starttime", data, @"data", nil];
+        //     id object = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
+        
+        [self sendToServerWithPostData:dic andNoJsonDic:noDic];
+    }
+}
+
+
+- (void)sendToServerWithPostData:(NSDictionary *)dic andNoJsonDic:(NSDictionary *)noDic
+{
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+        //    manager.requestSerializer = [NSSet setWithObject:@"text/html"];
+        [manager POST:@"http://www.tanghushi.com/api/mobile/?version=2&module=medicine_project&op=addproject" parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            id value = [[responseObject objectForKey:@"Variables"] objectForKey:@"value"];
+            NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
+            NSString * str = [numberFormatter stringFromNumber:value];
+            NSLog(@"--------%@", responseObject);
+            if ([str isEqualToString:@"1"]) {
+
+                [self.delegate passViewControllerWithDictionary:noDic];
+                [self.navigationController popViewControllerAnimated:YES];
+            }else{
+                [FVCustomAlertView showDefaultErrorAlertOnView:self.view withTitle:@"保存失败"];
+            }
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"修改失败");
+            [FVCustomAlertView showDefaultErrorAlertOnView:self.view withTitle:@"保存失败"];
+        }];
+ 
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

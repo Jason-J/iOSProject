@@ -1,0 +1,219 @@
+//
+//  MySearchViewController.m
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-11-23.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "MySearchViewController.h"
+#import "AFNetworking.h"
+#import "ResultViewController.h"
+@interface MySearchViewController ()<UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate>{
+    NSMutableArray * _historyArray;
+    UIButton * cleanBtn;
+    UITableView * _searchTableView;
+    NSMutableArray * _searchArray;
+}
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@end
+
+@implementation MySearchViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    _historyArray = [[NSMutableArray alloc] init];
+    _searchArray = [[NSMutableArray alloc]init];
+    // Do any additional setup after loading the view.
+    _searchBar.delegate = self;
+    _searchBar.showsCancelButton = NO;
+    _searchBar.placeholder = @"运动/饮食/药物";
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    _tableView.tag=111;
+       cleanBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cleanBtn setFrame:CGRectMake(0, 0, 200, 40)];
+    [cleanBtn setTitle:@"清除记录" forState:UIControlStateNormal];
+    [cleanBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [cleanBtn addTarget:self action:@selector(clear:) forControlEvents:UIControlEventTouchUpInside];
+     cleanBtn.hidden = YES;
+    _tableView.tableFooterView = cleanBtn;
+    _tableView.tableFooterView.userInteractionEnabled = YES;
+    [self getHistory];
+
+}
+
+-(void)getHistory{
+    NSURL * url = [NSURL URLWithString:@"http://test.tanghushi.com/api/mobile/?version=2&module=search&op=mysearch"];
+    NSURLRequest * request = [NSURLRequest requestWithURL:url];
+    AFHTTPRequestOperation * operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSString *requestTmp = [NSString stringWithString:operation.responseString];
+        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+        id object = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+
+        _historyArray = [[object objectForKey:@"Variables"] objectForKey:@"value"];
+        [_tableView reloadData];
+        if (_historyArray.count ==0) {
+            
+            cleanBtn.hidden = YES;
+        } else{
+            cleanBtn.hidden = NO;
+        }
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"error== %@",error);
+    }];
+    [operation start];
+}
+#pragma mark - 清空搜索记录
+- (void)clear:(id)sender{
+    DXAlertView * cleanA = [[DXAlertView alloc]initWithTitle:@"亲~" contentText:@"确定清除历史搜索记录吗？" leftButtonTitle:@"确定" rightButtonTitle:@"取消"];
+    [cleanA show];
+    cleanA.leftBlock = ^(){
+        NSURL * url = [NSURL URLWithString:@"http://test.tanghushi.com/api/mobile/?version=2&module=search&op=clearmysearch"];
+        NSURLRequest * request = [NSURLRequest requestWithURL:url];
+        AFHTTPRequestOperation * operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+        [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSString *requestTmp = [NSString stringWithString:operation.responseString];
+            NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+            id object = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+          NSLog(@"clear==%@",object);
+            [self getHistory];
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"error== %@",error);
+        }];
+        [operation start];
+
+    };
+    
+}
+#pragma mark - tableViewdelegate
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 0.1;
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    NSInteger count;
+    switch (tableView.tag) {
+        case 111:
+            count = _historyArray.count;
+            break;
+        case 222:
+            count = _searchArray.count;
+            break;
+        default:
+            break;
+    }
+    return count;
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString * ce = @"aa";
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:ce];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ce];
+    }
+    if (tableView.tag==111) {
+        cell.textLabel.text = [[_historyArray objectAtIndex:indexPath.row] objectForKey:@"searchterm"];
+        
+    }else{
+           cell.textLabel.text = [[_searchArray objectAtIndex:indexPath.row] objectForKey:@"name"];
+    }
+    return cell;
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    switch (tableView.tag) {
+        case 111:{
+            self.searchBar.text = [[_historyArray objectAtIndex:indexPath.row] objectForKey:@"searchterm"];
+            [self searchBarSearchButtonClicked:self.searchBar];
+            
+        }
+        break;
+        case 222:{
+            ResultViewController * result = [[ResultViewController alloc] init];
+          NSString * tag =[[_searchArray objectAtIndex:indexPath.row] objectForKey:@"tag"];
+            NSString * aid = [[_searchArray objectAtIndex:indexPath.row] objectForKey:@"auto_id"];
+            result.tag = tag;
+            result.aid = aid;
+             [self.navigationController pushViewController:result animated:YES];
+            
+        }
+            break;
+        default:
+            break;
+    }
+}
+#pragma mark - searchBardelegate
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)hsearchBar
+{
+     _searchBar.showsCancelButton = YES;
+    for(id cc in [_searchBar subviews])
+    {
+        for (UIView *view in [cc subviews]) {
+            if ([NSStringFromClass(view.class)isEqualToString:@"UINavigationButton"]) {
+                
+                UIButton *btn = (UIButton *)view;
+                [btn setTitle:@"取消" forState:UIControlStateNormal];
+            }
+        }
+    }
+}
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar                     // called when keyboard search button pressed
+{
+    NSString * string = [[NSString alloc] initWithFormat:@"http://test.tanghushi.com/api/mobile/?version=2&module=search&op=search&q=%@",searchBar.text];
+    NSString * newUrl = [string stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    NSURL *url = [NSURL URLWithString:newUrl];
+    NSURLRequest * request = [NSURLRequest requestWithURL:url];
+    AFHTTPRequestOperation * operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSString *requestTmp = [NSString stringWithString:operation.responseString];
+        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+        
+        id object = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+        _searchTableView = [[UITableView alloc] initWithFrame:_tableView.frame style:UITableViewStyleGrouped];
+        _searchTableView.delegate = self;
+        _searchTableView.dataSource = self;
+        _searchTableView.tag =222;
+        [self.view addSubview:_searchTableView];
+      _searchArray = [[object objectForKey:@"Variables"] objectForKey:@"value"];
+        
+        [_tableView reloadData];
+        if (_historyArray.count ==0) {
+            
+            cleanBtn.hidden = YES;
+        } else{
+            cleanBtn.hidden = NO;
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"error== %@",error);
+    }];
+    [operation start];
+
+    NSLog( @"%s,%d" , __FUNCTION__ , __LINE__ );
+    [searchBar resignFirstResponder];
+}
+- (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar                    // called when cancel button pressed
+{
+    NSLog( @"%s,%d" , __FUNCTION__ , __LINE__ );
+    [searchBar resignFirstResponder];
+    
+}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

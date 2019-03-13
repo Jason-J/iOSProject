@@ -1,0 +1,669 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		964A35C41A1D85050098B409 /* PhysicalCheckRemindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 964A35C31A1D85050098B409 /* PhysicalCheckRemindViewController.m */; };
+		964A35C71A1D85B30098B409 /* SportsRemindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 964A35C61A1D85B30098B409 /* SportsRemindViewController.m */; };
+		966C22F21A1C4B12003E868F /* Mine.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 966C22F11A1C4B12003E868F /* Mine.storyboard */; };
+		966C22FB1A1C6ABF003E868F /* MineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 966C22FA1A1C6ABF003E868F /* MineViewController.m */; };
+		966C22FE1A1C6E79003E868F /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 966C22FD1A1C6E79003E868F /* TabBarViewController.m */; };
+		96ADAA851A1CAF8C00515E91 /* AlarmClockRemindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96ADAA841A1CAF8C00515E91 /* AlarmClockRemindViewController.m */; };
+		96ADDE661A1B2E4D00AEECF1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 96ADDE651A1B2E4D00AEECF1 /* main.m */; };
+		96ADDE691A1B2E4D00AEECF1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 96ADDE681A1B2E4D00AEECF1 /* AppDelegate.m */; };
+		96ADDE721A1B2E4D00AEECF1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96ADDE701A1B2E4D00AEECF1 /* Main.storyboard */; };
+		96ADDE741A1B2E4D00AEECF1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96ADDE731A1B2E4D00AEECF1 /* Images.xcassets */; };
+		96ADDE771A1B2E4D00AEECF1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96ADDE751A1B2E4D00AEECF1 /* LaunchScreen.xib */; };
+		96ADDE831A1B2E4D00AEECF1 /* TangNiaoBingHuShiTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 96ADDE821A1B2E4D00AEECF1 /* TangNiaoBingHuShiTests.m */; };
+		96ADDECF1A1C3C5500AEECF1 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96ADDEC11A1C3C5500AEECF1 /* MainViewController.m */; };
+		96ADDED01A1C3C5500AEECF1 /* ConsultDoctor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96ADDEC31A1C3C5500AEECF1 /* ConsultDoctor.storyboard */; };
+		96ADDED11A1C3C5500AEECF1 /* ConsultDoctorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96ADDEC51A1C3C5500AEECF1 /* ConsultDoctorViewController.m */; };
+		96ADDED41A1C3CDB00AEECF1 /* MyHistoryQuestion.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96ADDED31A1C3CDB00AEECF1 /* MyHistoryQuestion.storyboard */; };
+		96ADDED61A1C3CE900AEECF1 /* MyData.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96ADDED51A1C3CE900AEECF1 /* MyData.storyboard */; };
+		96ADDED81A1C3CF300AEECF1 /* MyQuestion.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96ADDED71A1C3CF300AEECF1 /* MyQuestion.storyboard */; };
+		96ADDEDA1A1C3CFF00AEECF1 /* MySearch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96ADDED91A1C3CFF00AEECF1 /* MySearch.storyboard */; };
+		96ADDEDC1A1C3D1A00AEECF1 /* UseMedicinePlan.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96ADDEDB1A1C3D1A00AEECF1 /* UseMedicinePlan.storyboard */; };
+		96ADDEDE1A1C3D3300AEECF1 /* SystemPrompt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96ADDEDD1A1C3D3300AEECF1 /* SystemPrompt.storyboard */; };
+		96ADDEE01A1C3D7000AEECF1 /* BloodSugarRecord.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96ADDEDF1A1C3D7000AEECF1 /* BloodSugarRecord.storyboard */; };
+		96ADDEE21A1C3D8D00AEECF1 /* AlarmClockRemind.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96ADDEE11A1C3D8D00AEECF1 /* AlarmClockRemind.storyboard */; };
+		96E3F2E11A1E2E5000DA9479 /* MyDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E3F2E01A1E2E5000DA9479 /* MyDatePickerView.m */; };
+		96E7E5961A1D8E6D00A2BF53 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E7E5951A1D8E6D00A2BF53 /* Default-568h@2x.png */; };
+		96E7E5991A1D911500A2BF53 /* AddFamilyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E7E5981A1D911500A2BF53 /* AddFamilyViewController.m */; };
+		96E7E59D1A1D91BF00A2BF53 /* AlarmClock.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E7E59C1A1D91BF00A2BF53 /* AlarmClock.m */; };
+		96E7E5A01A1D91FD00A2BF53 /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E7E59F1A1D91FD00A2BF53 /* BaseModel.m */; };
+		96E7E5A31A1D96B900A2BF53 /* FamilyMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E7E5A21A1D96B900A2BF53 /* FamilyMember.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		96ADDE7D1A1B2E4D00AEECF1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 96ADDE581A1B2E4D00AEECF1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 96ADDE5F1A1B2E4D00AEECF1;
+			remoteInfo = TangNiaoBingHuShi;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		964A35C21A1D85050098B409 /* PhysicalCheckRemindViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhysicalCheckRemindViewController.h; sourceTree = "<group>"; };
+		964A35C31A1D85050098B409 /* PhysicalCheckRemindViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhysicalCheckRemindViewController.m; sourceTree = "<group>"; };
+		964A35C51A1D85B30098B409 /* SportsRemindViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SportsRemindViewController.h; sourceTree = "<group>"; };
+		964A35C61A1D85B30098B409 /* SportsRemindViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SportsRemindViewController.m; sourceTree = "<group>"; };
+		966C22F11A1C4B12003E868F /* Mine.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Mine.storyboard; sourceTree = "<group>"; };
+		966C22F91A1C6ABF003E868F /* MineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineViewController.h; sourceTree = "<group>"; };
+		966C22FA1A1C6ABF003E868F /* MineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineViewController.m; sourceTree = "<group>"; };
+		966C22FC1A1C6E79003E868F /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarViewController.h; sourceTree = "<group>"; };
+		966C22FD1A1C6E79003E868F /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarViewController.m; sourceTree = "<group>"; };
+		96ADAA831A1CAF8C00515E91 /* AlarmClockRemindViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmClockRemindViewController.h; sourceTree = "<group>"; };
+		96ADAA841A1CAF8C00515E91 /* AlarmClockRemindViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmClockRemindViewController.m; sourceTree = "<group>"; };
+		96ADDE601A1B2E4D00AEECF1 /* TangNiaoBingHuShi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TangNiaoBingHuShi.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		96ADDE641A1B2E4D00AEECF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		96ADDE651A1B2E4D00AEECF1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		96ADDE671A1B2E4D00AEECF1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		96ADDE681A1B2E4D00AEECF1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		96ADDE711A1B2E4D00AEECF1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		96ADDE731A1B2E4D00AEECF1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		96ADDE761A1B2E4D00AEECF1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		96ADDE7C1A1B2E4D00AEECF1 /* TangNiaoBingHuShiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TangNiaoBingHuShiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		96ADDE811A1B2E4D00AEECF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		96ADDE821A1B2E4D00AEECF1 /* TangNiaoBingHuShiTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TangNiaoBingHuShiTests.m; sourceTree = "<group>"; };
+		96ADDEC01A1C3C5500AEECF1 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		96ADDEC11A1C3C5500AEECF1 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		96ADDEC31A1C3C5500AEECF1 /* ConsultDoctor.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ConsultDoctor.storyboard; sourceTree = "<group>"; };
+		96ADDEC41A1C3C5500AEECF1 /* ConsultDoctorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConsultDoctorViewController.h; sourceTree = "<group>"; };
+		96ADDEC51A1C3C5500AEECF1 /* ConsultDoctorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConsultDoctorViewController.m; sourceTree = "<group>"; };
+		96ADDED31A1C3CDB00AEECF1 /* MyHistoryQuestion.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MyHistoryQuestion.storyboard; sourceTree = "<group>"; };
+		96ADDED51A1C3CE900AEECF1 /* MyData.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MyData.storyboard; sourceTree = "<group>"; };
+		96ADDED71A1C3CF300AEECF1 /* MyQuestion.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MyQuestion.storyboard; sourceTree = "<group>"; };
+		96ADDED91A1C3CFF00AEECF1 /* MySearch.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MySearch.storyboard; sourceTree = "<group>"; };
+		96ADDEDB1A1C3D1A00AEECF1 /* UseMedicinePlan.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = UseMedicinePlan.storyboard; sourceTree = "<group>"; };
+		96ADDEDD1A1C3D3300AEECF1 /* SystemPrompt.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SystemPrompt.storyboard; sourceTree = "<group>"; };
+		96ADDEDF1A1C3D7000AEECF1 /* BloodSugarRecord.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BloodSugarRecord.storyboard; sourceTree = "<group>"; };
+		96ADDEE11A1C3D8D00AEECF1 /* AlarmClockRemind.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AlarmClockRemind.storyboard; sourceTree = "<group>"; };
+		96E3F2DF1A1E2E5000DA9479 /* MyDatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDatePickerView.h; sourceTree = "<group>"; };
+		96E3F2E01A1E2E5000DA9479 /* MyDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDatePickerView.m; sourceTree = "<group>"; };
+		96E7E5951A1D8E6D00A2BF53 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		96E7E5971A1D911500A2BF53 /* AddFamilyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddFamilyViewController.h; sourceTree = "<group>"; };
+		96E7E5981A1D911500A2BF53 /* AddFamilyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddFamilyViewController.m; sourceTree = "<group>"; };
+		96E7E59B1A1D91BF00A2BF53 /* AlarmClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmClock.h; sourceTree = "<group>"; };
+		96E7E59C1A1D91BF00A2BF53 /* AlarmClock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmClock.m; sourceTree = "<group>"; };
+		96E7E59E1A1D91FD00A2BF53 /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
+		96E7E59F1A1D91FD00A2BF53 /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
+		96E7E5A11A1D96B900A2BF53 /* FamilyMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FamilyMember.h; sourceTree = "<group>"; };
+		96E7E5A21A1D96B900A2BF53 /* FamilyMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FamilyMember.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		96ADDE5D1A1B2E4D00AEECF1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		96ADDE791A1B2E4D00AEECF1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		96ADDE571A1B2E4D00AEECF1 = {
+			isa = PBXGroup;
+			children = (
+				96ADDE621A1B2E4D00AEECF1 /* TangNiaoBingHuShi */,
+				96ADDE7F1A1B2E4D00AEECF1 /* TangNiaoBingHuShiTests */,
+				96ADDE611A1B2E4D00AEECF1 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		96ADDE611A1B2E4D00AEECF1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				96ADDE601A1B2E4D00AEECF1 /* TangNiaoBingHuShi.app */,
+				96ADDE7C1A1B2E4D00AEECF1 /* TangNiaoBingHuShiTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		96ADDE621A1B2E4D00AEECF1 /* TangNiaoBingHuShi */ = {
+			isa = PBXGroup;
+			children = (
+				96ADDEBF1A1C3C5500AEECF1 /* 主页 */,
+				96ADDEB71A1C31A200AEECF1 /* 第三方工具类 */,
+				96ADDEA91A1C300D00AEECF1 /* 百科 */,
+				96ADDEAB1A1C300D00AEECF1 /* 我的 */,
+				96ADDEB31A1C300D00AEECF1 /* 主治医生 */,
+				96ADDE671A1B2E4D00AEECF1 /* AppDelegate.h */,
+				96ADDE681A1B2E4D00AEECF1 /* AppDelegate.m */,
+				966C22FC1A1C6E79003E868F /* TabBarViewController.h */,
+				966C22FD1A1C6E79003E868F /* TabBarViewController.m */,
+				96ADDE701A1B2E4D00AEECF1 /* Main.storyboard */,
+				96ADDE731A1B2E4D00AEECF1 /* Images.xcassets */,
+				96ADDE751A1B2E4D00AEECF1 /* LaunchScreen.xib */,
+				96ADDE631A1B2E4D00AEECF1 /* Supporting Files */,
+			);
+			path = TangNiaoBingHuShi;
+			sourceTree = "<group>";
+		};
+		96ADDE631A1B2E4D00AEECF1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				96ADDE641A1B2E4D00AEECF1 /* Info.plist */,
+				96E7E5951A1D8E6D00A2BF53 /* Default-568h@2x.png */,
+				96ADDE651A1B2E4D00AEECF1 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		96ADDE7F1A1B2E4D00AEECF1 /* TangNiaoBingHuShiTests */ = {
+			isa = PBXGroup;
+			children = (
+				96ADDE821A1B2E4D00AEECF1 /* TangNiaoBingHuShiTests.m */,
+				96ADDE801A1B2E4D00AEECF1 /* Supporting Files */,
+			);
+			path = TangNiaoBingHuShiTests;
+			sourceTree = "<group>";
+		};
+		96ADDE801A1B2E4D00AEECF1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				96ADDE811A1B2E4D00AEECF1 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		96ADDEA91A1C300D00AEECF1 /* 百科 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "百科";
+			sourceTree = "<group>";
+		};
+		96ADDEAB1A1C300D00AEECF1 /* 我的 */ = {
+			isa = PBXGroup;
+			children = (
+				966C22F11A1C4B12003E868F /* Mine.storyboard */,
+				966C22F91A1C6ABF003E868F /* MineViewController.h */,
+				966C22FA1A1C6ABF003E868F /* MineViewController.m */,
+			);
+			path = "我的";
+			sourceTree = "<group>";
+		};
+		96ADDEB31A1C300D00AEECF1 /* 主治医生 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "主治医生";
+			sourceTree = "<group>";
+		};
+		96ADDEB71A1C31A200AEECF1 /* 第三方工具类 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "第三方工具类";
+			sourceTree = "<group>";
+		};
+		96ADDEBF1A1C3C5500AEECF1 /* 主页 */ = {
+			isa = PBXGroup;
+			children = (
+				96ADDEC01A1C3C5500AEECF1 /* MainViewController.h */,
+				96ADDEC11A1C3C5500AEECF1 /* MainViewController.m */,
+				96ADDEC21A1C3C5500AEECF1 /* 咨询医生 */,
+				96ADDEC61A1C3C5500AEECF1 /* 我的历史提问 */,
+				96ADDEC71A1C3C5500AEECF1 /* 我的数据 */,
+				96ADDEC81A1C3C5500AEECF1 /* 我要提问 */,
+				96ADDEC91A1C3C5500AEECF1 /* 我要查询 */,
+				96ADDECA1A1C3C5500AEECF1 /* 用药方案 */,
+				96ADDECB1A1C3C5500AEECF1 /* 系统提示 */,
+				96ADDECC1A1C3C5500AEECF1 /* 血糖记录 */,
+				96ADDECE1A1C3C5500AEECF1 /* 闹钟提醒 */,
+			);
+			path = "主页";
+			sourceTree = "<group>";
+		};
+		96ADDEC21A1C3C5500AEECF1 /* 咨询医生 */ = {
+			isa = PBXGroup;
+			children = (
+				96ADDEC31A1C3C5500AEECF1 /* ConsultDoctor.storyboard */,
+				96ADDEC41A1C3C5500AEECF1 /* ConsultDoctorViewController.h */,
+				96ADDEC51A1C3C5500AEECF1 /* ConsultDoctorViewController.m */,
+			);
+			path = "咨询医生";
+			sourceTree = "<group>";
+		};
+		96ADDEC61A1C3C5500AEECF1 /* 我的历史提问 */ = {
+			isa = PBXGroup;
+			children = (
+				96ADDED31A1C3CDB00AEECF1 /* MyHistoryQuestion.storyboard */,
+			);
+			path = "我的历史提问";
+			sourceTree = "<group>";
+		};
+		96ADDEC71A1C3C5500AEECF1 /* 我的数据 */ = {
+			isa = PBXGroup;
+			children = (
+				96ADDED51A1C3CE900AEECF1 /* MyData.storyboard */,
+			);
+			path = "我的数据";
+			sourceTree = "<group>";
+		};
+		96ADDEC81A1C3C5500AEECF1 /* 我要提问 */ = {
+			isa = PBXGroup;
+			children = (
+				96ADDED71A1C3CF300AEECF1 /* MyQuestion.storyboard */,
+			);
+			path = "我要提问";
+			sourceTree = "<group>";
+		};
+		96ADDEC91A1C3C5500AEECF1 /* 我要查询 */ = {
+			isa = PBXGroup;
+			children = (
+				96ADDED91A1C3CFF00AEECF1 /* MySearch.storyboard */,
+			);
+			path = "我要查询";
+			sourceTree = "<group>";
+		};
+		96ADDECA1A1C3C5500AEECF1 /* 用药方案 */ = {
+			isa = PBXGroup;
+			children = (
+				96ADDEDB1A1C3D1A00AEECF1 /* UseMedicinePlan.storyboard */,
+			);
+			path = "用药方案";
+			sourceTree = "<group>";
+		};
+		96ADDECB1A1C3C5500AEECF1 /* 系统提示 */ = {
+			isa = PBXGroup;
+			children = (
+				96ADDEDD1A1C3D3300AEECF1 /* SystemPrompt.storyboard */,
+			);
+			path = "系统提示";
+			sourceTree = "<group>";
+		};
+		96ADDECC1A1C3C5500AEECF1 /* 血糖记录 */ = {
+			isa = PBXGroup;
+			children = (
+				96ADDEDF1A1C3D7000AEECF1 /* BloodSugarRecord.storyboard */,
+			);
+			path = "血糖记录";
+			sourceTree = "<group>";
+		};
+		96ADDECE1A1C3C5500AEECF1 /* 闹钟提醒 */ = {
+			isa = PBXGroup;
+			children = (
+				96E3F2DE1A1DC6BF00DA9479 /* View */,
+				96E7E59A1A1D917700A2BF53 /* Model */,
+				96ADDEE11A1C3D8D00AEECF1 /* AlarmClockRemind.storyboard */,
+				96ADAA831A1CAF8C00515E91 /* AlarmClockRemindViewController.h */,
+				96ADAA841A1CAF8C00515E91 /* AlarmClockRemindViewController.m */,
+				964A35C21A1D85050098B409 /* PhysicalCheckRemindViewController.h */,
+				964A35C31A1D85050098B409 /* PhysicalCheckRemindViewController.m */,
+				964A35C51A1D85B30098B409 /* SportsRemindViewController.h */,
+				964A35C61A1D85B30098B409 /* SportsRemindViewController.m */,
+				96E7E5971A1D911500A2BF53 /* AddFamilyViewController.h */,
+				96E7E5981A1D911500A2BF53 /* AddFamilyViewController.m */,
+			);
+			path = "闹钟提醒";
+			sourceTree = "<group>";
+		};
+		96E3F2DE1A1DC6BF00DA9479 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				96E3F2DF1A1E2E5000DA9479 /* MyDatePickerView.h */,
+				96E3F2E01A1E2E5000DA9479 /* MyDatePickerView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		96E7E59A1A1D917700A2BF53 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				96E7E59E1A1D91FD00A2BF53 /* BaseModel.h */,
+				96E7E59F1A1D91FD00A2BF53 /* BaseModel.m */,
+				96E7E59B1A1D91BF00A2BF53 /* AlarmClock.h */,
+				96E7E59C1A1D91BF00A2BF53 /* AlarmClock.m */,
+				96E7E5A11A1D96B900A2BF53 /* FamilyMember.h */,
+				96E7E5A21A1D96B900A2BF53 /* FamilyMember.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		96ADDE5F1A1B2E4D00AEECF1 /* TangNiaoBingHuShi */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 96ADDE861A1B2E4D00AEECF1 /* Build configuration list for PBXNativeTarget "TangNiaoBingHuShi" */;
+			buildPhases = (
+				96ADDE5C1A1B2E4D00AEECF1 /* Sources */,
+				96ADDE5D1A1B2E4D00AEECF1 /* Frameworks */,
+				96ADDE5E1A1B2E4D00AEECF1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TangNiaoBingHuShi;
+			productName = TangNiaoBingHuShi;
+			productReference = 96ADDE601A1B2E4D00AEECF1 /* TangNiaoBingHuShi.app */;
+			productType = "com.apple.product-type.application";
+		};
+		96ADDE7B1A1B2E4D00AEECF1 /* TangNiaoBingHuShiTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 96ADDE891A1B2E4D00AEECF1 /* Build configuration list for PBXNativeTarget "TangNiaoBingHuShiTests" */;
+			buildPhases = (
+				96ADDE781A1B2E4D00AEECF1 /* Sources */,
+				96ADDE791A1B2E4D00AEECF1 /* Frameworks */,
+				96ADDE7A1A1B2E4D00AEECF1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				96ADDE7E1A1B2E4D00AEECF1 /* PBXTargetDependency */,
+			);
+			name = TangNiaoBingHuShiTests;
+			productName = TangNiaoBingHuShiTests;
+			productReference = 96ADDE7C1A1B2E4D00AEECF1 /* TangNiaoBingHuShiTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		96ADDE581A1B2E4D00AEECF1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = Jason;
+				TargetAttributes = {
+					96ADDE5F1A1B2E4D00AEECF1 = {
+						CreatedOnToolsVersion = 6.1;
+					};
+					96ADDE7B1A1B2E4D00AEECF1 = {
+						CreatedOnToolsVersion = 6.1;
+						TestTargetID = 96ADDE5F1A1B2E4D00AEECF1;
+					};
+				};
+			};
+			buildConfigurationList = 96ADDE5B1A1B2E4D00AEECF1 /* Build configuration list for PBXProject "TangNiaoBingHuShi" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 96ADDE571A1B2E4D00AEECF1;
+			productRefGroup = 96ADDE611A1B2E4D00AEECF1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				96ADDE5F1A1B2E4D00AEECF1 /* TangNiaoBingHuShi */,
+				96ADDE7B1A1B2E4D00AEECF1 /* TangNiaoBingHuShiTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		96ADDE5E1A1B2E4D00AEECF1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96ADDED61A1C3CE900AEECF1 /* MyData.storyboard in Resources */,
+				96ADDE721A1B2E4D00AEECF1 /* Main.storyboard in Resources */,
+				96ADDEE21A1C3D8D00AEECF1 /* AlarmClockRemind.storyboard in Resources */,
+				96ADDEDA1A1C3CFF00AEECF1 /* MySearch.storyboard in Resources */,
+				96ADDED81A1C3CF300AEECF1 /* MyQuestion.storyboard in Resources */,
+				96ADDED41A1C3CDB00AEECF1 /* MyHistoryQuestion.storyboard in Resources */,
+				96ADDE771A1B2E4D00AEECF1 /* LaunchScreen.xib in Resources */,
+				96ADDED01A1C3C5500AEECF1 /* ConsultDoctor.storyboard in Resources */,
+				96E7E5961A1D8E6D00A2BF53 /* Default-568h@2x.png in Resources */,
+				96ADDEDC1A1C3D1A00AEECF1 /* UseMedicinePlan.storyboard in Resources */,
+				96ADDEDE1A1C3D3300AEECF1 /* SystemPrompt.storyboard in Resources */,
+				966C22F21A1C4B12003E868F /* Mine.storyboard in Resources */,
+				96ADDE741A1B2E4D00AEECF1 /* Images.xcassets in Resources */,
+				96ADDEE01A1C3D7000AEECF1 /* BloodSugarRecord.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		96ADDE7A1A1B2E4D00AEECF1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		96ADDE5C1A1B2E4D00AEECF1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96ADDE691A1B2E4D00AEECF1 /* AppDelegate.m in Sources */,
+				964A35C71A1D85B30098B409 /* SportsRemindViewController.m in Sources */,
+				96E3F2E11A1E2E5000DA9479 /* MyDatePickerView.m in Sources */,
+				96E7E59D1A1D91BF00A2BF53 /* AlarmClock.m in Sources */,
+				96E7E5991A1D911500A2BF53 /* AddFamilyViewController.m in Sources */,
+				96ADDECF1A1C3C5500AEECF1 /* MainViewController.m in Sources */,
+				96E7E5A31A1D96B900A2BF53 /* FamilyMember.m in Sources */,
+				966C22FB1A1C6ABF003E868F /* MineViewController.m in Sources */,
+				96E7E5A01A1D91FD00A2BF53 /* BaseModel.m in Sources */,
+				96ADDED11A1C3C5500AEECF1 /* ConsultDoctorViewController.m in Sources */,
+				966C22FE1A1C6E79003E868F /* TabBarViewController.m in Sources */,
+				96ADDE661A1B2E4D00AEECF1 /* main.m in Sources */,
+				96ADAA851A1CAF8C00515E91 /* AlarmClockRemindViewController.m in Sources */,
+				964A35C41A1D85050098B409 /* PhysicalCheckRemindViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		96ADDE781A1B2E4D00AEECF1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96ADDE831A1B2E4D00AEECF1 /* TangNiaoBingHuShiTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		96ADDE7E1A1B2E4D00AEECF1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 96ADDE5F1A1B2E4D00AEECF1 /* TangNiaoBingHuShi */;
+			targetProxy = 96ADDE7D1A1B2E4D00AEECF1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		96ADDE701A1B2E4D00AEECF1 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				96ADDE711A1B2E4D00AEECF1 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		96ADDE751A1B2E4D00AEECF1 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				96ADDE761A1B2E4D00AEECF1 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		96ADDE841A1B2E4D00AEECF1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		96ADDE851A1B2E4D00AEECF1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		96ADDE871A1B2E4D00AEECF1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = TangNiaoBingHuShi/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		96ADDE881A1B2E4D00AEECF1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = TangNiaoBingHuShi/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		96ADDE8A1A1B2E4D00AEECF1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = TangNiaoBingHuShiTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TangNiaoBingHuShi.app/TangNiaoBingHuShi";
+			};
+			name = Debug;
+		};
+		96ADDE8B1A1B2E4D00AEECF1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = TangNiaoBingHuShiTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TangNiaoBingHuShi.app/TangNiaoBingHuShi";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		96ADDE5B1A1B2E4D00AEECF1 /* Build configuration list for PBXProject "TangNiaoBingHuShi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				96ADDE841A1B2E4D00AEECF1 /* Debug */,
+				96ADDE851A1B2E4D00AEECF1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		96ADDE861A1B2E4D00AEECF1 /* Build configuration list for PBXNativeTarget "TangNiaoBingHuShi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				96ADDE871A1B2E4D00AEECF1 /* Debug */,
+				96ADDE881A1B2E4D00AEECF1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		96ADDE891A1B2E4D00AEECF1 /* Build configuration list for PBXNativeTarget "TangNiaoBingHuShiTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				96ADDE8A1A1B2E4D00AEECF1 /* Debug */,
+				96ADDE8B1A1B2E4D00AEECF1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 96ADDE581A1B2E4D00AEECF1 /* Project object */;
+}

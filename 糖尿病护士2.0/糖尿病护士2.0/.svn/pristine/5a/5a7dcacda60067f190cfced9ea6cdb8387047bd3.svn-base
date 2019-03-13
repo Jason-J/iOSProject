@@ -1,0 +1,148 @@
+//
+//  ConsultDoctorViewController.m
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-11-19.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "ConsultDoctorViewController.h"
+#import "DoctorTableViewCell.h"
+#import "Doctor.h"
+#import "AFNetworking.h"
+#import "QuestionCell.h"
+#import "AFNetworking.h"
+#import "Question.h"
+#import "UIImageView+WebCache.h"
+static NSInteger p=1;
+@interface ConsultDoctorViewController ()<UITableViewDataSource,UITableViewDelegate>{
+    NSMutableArray * tableArray;
+}
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@end
+
+@implementation ConsultDoctorViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    tableArray = [[NSMutableArray alloc] init];
+    // Do any additional setup after loading the view.
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    [self segmentIndexChanged:self.segmentedControl];
+}
+
+- (IBAction)segmentIndexChanged:(id)sender {
+    if (self.segmentedControl.selectedSegmentIndex==1) {
+        _tableView.rowHeight = 100;
+        [self getDoctorRequest];
+        [_tableView reloadData];
+    }else{
+        _tableView.rowHeight = 343;
+        [self getDataFromServer];
+        [_tableView reloadData];
+    }
+}
+#pragma  mark- 获取问答区数据
+-(void)getDataFromServer
+{
+    [FVCustomAlertView showDefaultLoadingAlertOnView:self.view withTitle:@"拼命加载中..."];
+    JSNetWorking *netWork = [[JSNetWorking alloc] init];
+    NSString *url = [NSString stringWithFormat:@"http://test.tanghushi.com/api/mobile/?version=2&module=question&op=askanswer&status=4&ismy=2"];
+    [netWork getRequestWithURLStr:url success:^(id ResultData) {
+            NSArray *array =[[ResultData objectForKey:@"Variables"] objectForKey:@"value"];
+        if ([array isEqual:[NSArray class]]) {
+            for (int i = 0; i < array.count; i++) {
+                Question *question = [[Question alloc] init];
+                [question setValuesForKeysWithDictionary:array[i]];
+                [tableArray addObject:question];
+            }
+            [FVCustomAlertView hideAlertFromView:self.view fading:YES];
+            [_tableView reloadData];
+        }
+    } failure:^(NSError *error, AFHTTPRequestOperation *operation) {
+        [FVCustomAlertView hideAlertFromView:self.view fading:YES];
+    }];
+}
+#pragma mark - 获取医生
+- (void)getDoctorRequest{
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://test.tanghushi.com/api/mobile/?version=2&module=expert&op=list&p=%ld",(long)p]];
+    //    NSMutableString * string = [NSMutableString stringWithFormat:
+    NSURLRequest * request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:20];
+    AFHTTPRequestOperation * operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSString *requestTmp = [NSString stringWithString:operation.responseString];
+        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+        id object = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+        NSArray * array = [[object objectForKey:@"Variables"] objectForKey:@"value"];
+        [tableArray removeAllObjects];
+        for (NSDictionary * dic in array) {
+            Doctor * docter = [[Doctor alloc] init];
+            [docter setValuesForKeysWithDictionary:dic];
+            [tableArray addObject:docter];
+            [self.tableView reloadData];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (error) {
+            NSLog(@"error ==%@",error);
+            [FVCustomAlertView hideAlertFromView:self.view fading:YES];
+            
+        }
+    }];
+    [operation start];
+}
+#pragma mark -获取问答
+- (void)getQuestionRequest{
+    JSNetWorking * js = [[JSNetWorking alloc] init];
+    [js getRequestWithURLStr:@"" success:^(id ResultData) {
+        NSLog(@"value--=-=-=-=-=%@",[[ResultData objectForKey:@"Variables"] objectForKey:@"value"]);
+    } failure:^(NSError *error, AFHTTPRequestOperation *operation) {
+        NSLog(@"error==%@",error);
+    }];
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (self.segmentedControl.selectedSegmentIndex == 1) {
+        if (tableArray.count==0) {
+            return 0;
+        }else{
+            return tableArray.count;
+        }
+    } else{
+        return 3;
+    }
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (self.segmentedControl.selectedSegmentIndex==1) {
+        static NSString * ce =@"DoctorCellIdentifier";
+        DoctorTableViewCell * cell = (DoctorTableViewCell *)[tableView dequeueReusableCellWithIdentifier:ce];
+        [cell configureForModel:[tableArray objectAtIndex:indexPath.row]];
+        return cell;
+    }
+    else{
+        static NSString * ce =@"Question";
+        QuestionCell * cell = (QuestionCell *)[tableView dequeueReusableCellWithIdentifier:ce];
+        if (cell == nil) {
+            cell = [[[NSBundle mainBundle] loadNibNamed:@"QuestionCell" owner:self options:nil] lastObject];
+        }
+        return cell;
+    }
+    
+}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

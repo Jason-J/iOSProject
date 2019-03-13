@@ -1,0 +1,249 @@
+//
+//  AddFamilyViewController.m
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-11-20.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "AddFamilyViewController.h"
+#import "AFNetworking.h"
+#import "FamilyMember.h"
+@interface AddFamilyViewController ()<UIActionSheetDelegate, UIAlertViewDelegate>
+{
+    NSInteger _time;
+    NSTimer *_countDownTimer;
+}
+@property (nonatomic, strong) FamilyMember *familyMember;
+@property (weak, nonatomic) IBOutlet UITextField *realNameTextField;
+@property (weak, nonatomic) IBOutlet UIButton *relationshipBtn;
+@property (weak, nonatomic) IBOutlet UIView *verifyView;
+@property (weak, nonatomic) IBOutlet UITextField *phoneNumberTextFied;
+@property (weak, nonatomic) IBOutlet UITextField *verifyTextField;
+@property (weak, nonatomic) IBOutlet UIButton *remindStyleBtn;
+@property (weak, nonatomic) IBOutlet UILabel *remindStyleLabel;
+@property (weak, nonatomic) IBOutlet UIView *realNameView;
+@property (weak, nonatomic) IBOutlet UIButton *verifyBtn;
+@property (weak, nonatomic) IBOutlet UILabel *relationshipLabel;
+
+@property (nonatomic, strong) NSMutableArray *familyArr;
+@property (nonatomic,strong) UILabel *timeLabel;
+@property (nonatomic, copy) NSString *verifyStr;
+@end
+
+@implementation AddFamilyViewController
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    _familyMember = [[FamilyMember alloc] init];
+    _familyArr = [[NSMutableArray alloc] init];
+    _phoneNumberTextFied.keyboardType = UIKeyboardTypePhonePad;
+    _verifyTextField.keyboardType = UIKeyboardTypePhonePad;
+    _timeLabel = [[UILabel alloc] initWithFrame: _verifyBtn.frame];
+    [_verifyView addSubview:_timeLabel];
+    _timeLabel.hidden = YES;
+    _timeLabel.font = [UIFont systemFontOfSize:15];
+    [self readFromLocal];
+
+}
+//保存按钮方法
+- (IBAction)saveFamilyMemberBtnAction:(id)sender {
+    if ([_realNameTextField.text isEqualToString:@""]) {
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"糖尿病护士提醒：" message:@"请输入您家人的姓名" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil, nil];
+        [FVCustomAlertView showDefaultWarningAlertOnView:self.view withTitle:@"家人姓名未填"];
+        [self hiddenAlertView];
+    } else if ([_phoneNumberTextFied.text isEqualToString:@""] || _phoneNumberTextFied.text.length != 11) {
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"糖尿病护士提醒：" message:@"请输入您家人的手机号码" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil, nil];
+        [FVCustomAlertView showDefaultWarningAlertOnView:self.view withTitle:@"家人手机号码未填"];
+        [self hiddenAlertView];
+    } else if ([_verifyTextField.text isEqualToString:@""]){
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"糖尿病护士提醒：" message:@"请输入您亲人手机获取的验证码" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil, nil];
+        [FVCustomAlertView showDefaultWarningAlertOnView:self.view withTitle:@"手机验证码未填"];
+        [self hiddenAlertView];
+    } else if ([_relationshipLabel.text isEqualToString:@""]){
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"糖尿病护士提醒：" message:@"请选择家属与您的关系" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil, nil];
+        [FVCustomAlertView showDefaultWarningAlertOnView:self.view withTitle:@"关系未填"];
+        [self hiddenAlertView];
+    } else if ([_remindStyleLabel.text isEqualToString:@""]){
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"糖尿病护士提醒：" message:@"请选择提醒家人的方式" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil, nil];
+        [FVCustomAlertView showDefaultWarningAlertOnView:self.view withTitle:@"请选择提醒家人的方式"];
+        [self hiddenAlertView];
+    } else {
+        _familyMember.realName = _realNameTextField.text;
+        _familyMember.relationship = _relationshipLabel.text;
+        _familyMember.phoneNumber = _phoneNumberTextFied.text;
+        _familyMember.remindStyle = _remindStyleLabel.text;
+        [_familyArr addObject:_familyMember];
+        if (_familyArr.count > 5) {
+//            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"糖尿病护士提醒：" message:@"您最多可添加5个家人哦，现在已经有5个了！" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil, nil];
+//            [alertView show];
+            [FVCustomAlertView showDefaultWarningAlertOnView:self.view withTitle:@"最多可添加5个家人"];
+            [self hiddenAlertView];
+                       return;
+        }
+        [self writeToLocal];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+
+}
+//读取家人
+-(void)readFromLocal
+{
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *familyArrPath = [docPath stringByAppendingPathComponent:@"family.aa"];
+    NSArray *array = [NSKeyedUnarchiver unarchiveObjectWithFile:familyArrPath];
+    if (array) {
+        
+        _familyArr = [NSKeyedUnarchiver unarchiveObjectWithFile:familyArrPath];
+    }
+}
+//家人写入本地
+- (void)writeToLocal
+{
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *familyArrPath = [docPath stringByAppendingPathComponent:@"family.aa"];
+    NSLog(@"%@", familyArrPath);
+    [NSKeyedArchiver archiveRootObject:_familyArr toFile:familyArrPath];
+    NSArray *array = [NSKeyedUnarchiver unarchiveObjectWithFile:familyArrPath];
+    NSLog(@"%@", array);
+}
+//关系按钮点击方法
+- (IBAction)relationshipBtnAction:(id)sender {
+//    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"请选择你们之间的关系" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"祖父母", @"父母", @"其他平辈", @"子女", @"孙辈", nil];
+//    actionSheet.tag = 11111;
+//    [actionSheet showInView:self.view];
+    JSPickerView *pick = [JSPickerView pickerViewInstance];
+    pick.firstMArr = (NSMutableArray *)@[@"祖父母", @"父母", @"其他平辈", @"子女", @"孙辈"];
+    [pick valueOfCurrentStr:^(NSString *currentStr) {
+        _relationshipLabel.text = currentStr;
+    }];
+    [pick showInView:self.view];
+    
+    
+}
+#pragma  mark- 倒计时方法
+-(void)timeDownMeth
+{
+    
+    _time --;
+    if (_time == 0) {
+        [_countDownTimer invalidate];
+        _verifyBtn.hidden = NO;
+        _timeLabel.hidden = YES;
+    }
+    _timeLabel.text = [NSString stringWithFormat:@"%ld秒后重新获取", (long)_time];
+    [_timeLabel sizeToFit];
+    
+}
+- (IBAction)verifyBtnAction:(id)sender
+{
+    if ( _phoneNumberTextFied.text.length != 11) {
+        [FVCustomAlertView showDefaultWarningAlertOnView:self.view withTitle:@"手机号码有误"];
+        [self hiddenAlertView];
+        _time = 60;
+
+    } else {
+        _countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeDownMeth) userInfo:nil repeats:YES];
+        _timeLabel.hidden = NO;
+        _verifyBtn.hidden = YES;
+        _timeLabel.alpha = 0.5;
+        _time = 60;
+        [self getVerifyFromServer];
+
+    }
+}
+#pragma  mark- 获取验证码方法
+-(void)getVerifyFromServer
+{
+    NSString *urlStr = [[NSString stringWithFormat:@"http://test.tanghushi.com/api/mobile/?version=2&module=verify&op=getverify&mobiles=%@&yy=0", _phoneNumberTextFied.text]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *url = [NSURL URLWithString:urlStr];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:20];
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        id object = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
+        NSLog(@"%@", object);
+        _verifyStr = [[object objectForKey:@"Variables"] objectForKey:@"value"];
+        NSLog(@"%@", _verifyStr);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+    }];
+    [operation start];
+}
+#pragma  mark- 警告框消失方法
+-(void)hiddenAlertView
+{
+    [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(hiddenAlertViewNow) userInfo:nil repeats:1];
+}
+-(void)hiddenAlertViewNow
+{
+    [FVCustomAlertView hideAlertFromView:self.view fading:YES];
+}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+//提醒方式选择按钮
+- (IBAction)remindStyleBtnAction:(id)sender {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"请选择提醒方式" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:@"短信", @"电话", nil];
+    actionSheet.tag = 22222;
+    [actionSheet showInView:self.view];
+}
+
+
+
+//回收键盘
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [_realNameTextField resignFirstResponder];
+    [_phoneNumberTextFied resignFirstResponder];
+    [_verifyTextField resignFirstResponder];
+}
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (actionSheet.tag == 11111) {
+        switch (buttonIndex) {
+            case 0:
+                _familyMember.relationship = @"祖父母";
+                break;
+            case 1:
+                _familyMember.relationship = @"父母";
+                break;
+             case 2:
+                _familyMember.relationship = @"其他平辈";
+                break;
+                case 3:
+                _familyMember.relationship = @"子女";
+                break;
+                case 4:
+                _familyMember.relationship = @"孙辈";
+                break;
+            default:
+                break;
+        }
+        [_relationshipLabel setText:_familyMember.relationship];
+        
+    } else if (actionSheet.tag == 22222) {
+        if (buttonIndex == 0) {
+            NSLog(@"短信");
+            _familyMember.remindStyle = @"短信";
+        } else {
+            NSLog(@"电话");
+            _familyMember.remindStyle = @"电话";
+        }
+        [_remindStyleLabel setText:_familyMember.remindStyle];
+        
+    }
+
+}
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

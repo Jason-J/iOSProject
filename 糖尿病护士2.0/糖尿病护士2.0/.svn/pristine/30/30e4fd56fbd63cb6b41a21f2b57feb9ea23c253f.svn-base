@@ -1,0 +1,50 @@
+//
+//  MyAddMedicineView.m
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-12-3.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "MyAddMedicineView.h"
+
+@implementation MyAddMedicineView
+
+- (void)awakeFromNib {
+    // Initialization code
+    _searchBar.delegate = self;
+}
+-(void)valueOfSearchBar:(SEARCHBLCOK)searchBarBlock
+{
+    self.searchBarBlock = searchBarBlock;
+}
+-(BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
+{
+    searchBar.showsCancelButton = YES;
+    return YES;
+}
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+    
+}
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    self.searchBarBlock(searchBar);
+}
+- (UIViewController *)viewController {
+    for (UIView* next = [self superview]; next; next = next.superview) {
+        UIResponder *nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController class]]) {
+            return (UIViewController *)nextResponder;
+        }
+    }
+    return nil;
+}
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+
+@end

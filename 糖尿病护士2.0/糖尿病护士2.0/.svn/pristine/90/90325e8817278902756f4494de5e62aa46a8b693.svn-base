@@ -1,0 +1,131 @@
+//
+//  MyHistoryQuestionViewController.m
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-12-4.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "MyHistoryQuestionViewController.h"
+#import "CellForMyHistoryQuestion.h"
+#import "CellForMyHistoryQuestionNoAnswer.h"
+#import "Question.h"
+#import "MyQuestionDetailViewController.h"
+@interface MyHistoryQuestionViewController ()
+@property (nonatomic, strong) NSMutableArray *tableViewMArr;
+@end
+
+@implementation MyHistoryQuestionViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    _tableViewMArr = [[NSMutableArray alloc] init];
+    // Uncomment the following line to preserve selection between presentations.
+    // self.clearsSelectionOnViewWillAppear = NO;
+    
+    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+//      [self.tableView registerNib:[UINib nibWithNibName:@"CellForMyHistoryQuestion" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"no"];
+    [self getDataFromServer];
+}
+-(void)getDataFromServer
+{
+    [FVCustomAlertView showDefaultLoadingAlertOnView:self.view withTitle:@"加载中..."];
+    JSNetWorking *network = [[JSNetWorking alloc] init];
+#warning 测试服务器  需将url test换成www
+    [network getRequestWithURLStr:@"http://test.tanghushi.com/api/mobile/?version=2&module=question&op=list&ismy=1&status=0" success:^(id ResultData) {
+        [FVCustomAlertView hideAlertFromView:self.view fading:YES];
+        NSArray *array = [[ResultData objectForKey:@"Variables"] objectForKey:@"value"];
+        if ([array isKindOfClass:[NSArray class]]) {
+            for (int i = 0; i < array.count; i++) {
+                Question *question = [[Question alloc] init];
+                [question setValuesForKeysWithDictionary:array[i]];
+                [_tableViewMArr addObject:question];
+            }
+        }
+        [self.tableView reloadData];
+    } failure:^(NSError *error, AFHTTPRequestOperation *operation) {
+        [FVCustomAlertView showDefaultWarningAlertOnView:self.view withTitle:@"错误"];
+    }];
+}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+#pragma mark - Table view data source
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+#warning Incomplete method implementation.
+    // Return the number of rows in the section.
+    return _tableViewMArr.count;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CellForMyHistoryQuestion *cell = nil;
+    Question *question = [_tableViewMArr objectAtIndex:indexPath.row];
+    if ([question.status isEqualToString:@"1"]) {
+        static NSString *str1 = @"yes";
+        [self.tableView registerNib:[UINib nibWithNibName:@"CellForMyHistoryQuestion" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:str1];
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"CellForMyHistoryQuestion" owner:self options:nil] lastObject];
+        cell.question = question;
+    } else {
+        [self.tableView registerNib:[UINib nibWithNibName:@"CellForMyHistoryQuestionNoAnswer" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"yes"];
+        
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"CellForMyHistoryQuestionNoAnswer" owner:self options:nil] lastObject];
+    }
+    // Configure the cell...
+    return cell;
+}
+#pragma  mark- cell点击方法
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Question *question = [_tableViewMArr objectAtIndex:indexPath.row];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MyQuestion" bundle:[NSBundle mainBundle]];
+    MyQuestionDetailViewController *controller = [storyboard instantiateViewControllerWithIdentifier:@"MyQuestionDetailViewController"];
+    controller.question = question;
+    [self.navigationController pushViewController:controller animated:YES];
+}
+/*
+// Override to support conditional editing of the table view.
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return NO if you do not want the specified item to be editable.
+    return YES;
+}
+*/
+/*
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the row from the data source
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }   
+}
+*/
+
+/*
+// Override to support rearranging the table view.
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+}
+*/
+
+/*
+// Override to support conditional rearranging of the table view.
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return NO if you do not want the item to be re-orderable.
+    return YES;
+}
+*/
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

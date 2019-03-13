@@ -1,0 +1,32 @@
+//
+//  AlarmClock.h
+//  患者端APP
+//
+//  Created by Jason on 14-9-30.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "BaseModel.h"
+
+@interface AlarmClock : BaseModel<NSCoding>
+@property (nonatomic, copy) NSString *Monday;//1
+@property (nonatomic, copy) NSString *Tuesday;//2
+@property (nonatomic, copy) NSString *Wednesday;//3
+@property (nonatomic, copy) NSString *Thursday;//4
+@property (nonatomic, copy) NSString *Friday;//5
+@property (nonatomic, copy) NSString *Saturday;//6
+@property (nonatomic, copy) NSString *Sunday;//7
+@property (nonatomic, copy) NSString *voiceUrl;
+@property (nonatomic, copy) NSString *isShake;
+@property (nonatomic, copy) NSString *isOpen;
+@property (nonatomic, copy) NSString *remarks;
+@property (nonatomic, copy) NSString *time;
+@property (nonatomic, copy) NSString *repeat;
+
+@property (nonatomic, copy) NSString *checkProject;//检查项目
+@property (nonatomic, copy) NSString *lastCheckTime; // 上次检查日期
+@property (nonatomic, copy) NSString *checkCycle;//检查周期
+@property (nonatomic, copy) NSArray *familyArr;//提醒家属
+@property (nonatomic, copy) NSArray *allFamily; //所有家属
+@property (nonatomic, copy) NSString *alarmType;//闹钟类型  1为检查闹钟 2为运动提醒 3为其他
+@end

@@ -1,0 +1,37 @@
+//
+//  MyDoctorTableViewCell.m
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-12-1.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "MyDoctorTableViewCell.h"
+#import "UIImageView+WebCache.h"
+@implementation MyDoctorTableViewCell
+
+- (void)awakeFromNib {
+    // Initialization code
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+
+@end
+@implementation MyDoctorTableViewCell (ConfigureForDoctor)
+
+-(void)configureForModel:(Doctor *)doctor{
+    self.doctorNameLabel.text = doctor.realname;
+    self.titleLabel.text = doctor.title;
+    self.hospitalLabel.text = doctor.hospital;
+//    self.signLabel.text = doctor.speciality;
+    [self.myImageView sd_setImageWithURL:[NSURL URLWithString:doctor.headimg] placeholderImage:[UIImage imageNamed:@"doctor_head-portrait"]];
+    self.myImageView.layer.cornerRadius = 40;
+    self.myImageView.layer.masksToBounds = YES;
+    
+}
+
+@end

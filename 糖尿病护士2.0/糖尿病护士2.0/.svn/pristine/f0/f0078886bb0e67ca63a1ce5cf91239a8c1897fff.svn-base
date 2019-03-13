@@ -1,0 +1,41 @@
+//
+//  DoctorTableViewCell.m
+//  TangNiaoBingHuShi
+//
+//  Created by qimingfang-dwk on 14/11/20.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "DoctorTableViewCell.h"
+#import "UIImageView+WebCache.h"
+//#import "UIImageView+WebCache.h"
+
+
+@implementation DoctorTableViewCell
+
+- (void)awakeFromNib {
+    // Initialization code
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+    // Configure the view for the selected state
+}
+
+@end
+@implementation DoctorTableViewCell (ConfigureForDoctor)
+
+- (void)configureForModel:(Doctor *)doctor{
+//    [self.doctorIma setImageWithURL:[NSURL URLWithString:doctor.headimg] placeholderImage:nil];
+    self.doctorNameLab.text = doctor.realname;
+    self.doctorTitleLab.text = doctor.title;
+    self.achievementLab.text = doctor.achievement;
+    [self.doctorIma sd_setImageWithURL:[NSURL URLWithString:doctor.headimg] placeholderImage:nil];
+    self.doctorIma.layer.cornerRadius = 55/2;
+    self.doctorIma.layer.masksToBounds = YES;
+    self.hospitalLab.text = doctor.hospital;
+    
+    
+}
+
+@end

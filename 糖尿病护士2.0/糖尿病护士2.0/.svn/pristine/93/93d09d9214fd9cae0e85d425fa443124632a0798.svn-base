@@ -1,0 +1,21 @@
+//
+//  CellForMyHistoryQuestion.h
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-12-4.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "Question.h"
+@interface CellForMyHistoryQuestion : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIView *titleView;
+@property (nonatomic, strong) Question *question;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *detailLabel;
+@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *stateLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *myImageView;
+@property (weak, nonatomic) IBOutlet UILabel *freeLabel;
+
+@end

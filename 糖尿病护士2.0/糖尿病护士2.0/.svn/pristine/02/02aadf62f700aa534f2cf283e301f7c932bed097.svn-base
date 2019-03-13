@@ -1,0 +1,35 @@
+//
+//  FamilyMember.m
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-11-20.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "FamilyMember.h"
+
+@implementation FamilyMember
+-(void)encodeWithCoder:(NSCoder *)aCoder
+{
+    
+    [aCoder encodeObject:_realName forKey:@"realName"];
+    [aCoder encodeObject:_relationship forKey:@"relationship"];
+    [aCoder encodeObject:_phoneNumber forKey:@"phoneNumber"];
+    [aCoder encodeObject:_remindStyle forKey:@"remindStyle"];
+
+
+}
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    if (self) {
+        _realName = [aDecoder decodeObjectForKey:@"realName"];
+        _relationship = [aDecoder decodeObjectForKey:@"relationship"];
+        _phoneNumber = [aDecoder decodeObjectForKey:@"phoneNumber"];
+        _remindStyle = [aDecoder decodeObjectForKey:@"remindStyle"];
+        
+    }
+    return self;
+}
+
+@end

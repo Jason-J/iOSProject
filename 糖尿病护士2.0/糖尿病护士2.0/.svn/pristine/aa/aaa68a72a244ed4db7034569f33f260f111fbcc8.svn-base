@@ -1,0 +1,90 @@
+//
+//  AddAllergyMedicineViewController.m
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-12-5.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "AddAllergyMedicineViewController.h"
+#import "AddMedicineViewController.h"
+#import "JSNetWorking.h"
+@interface AddAllergyMedicineViewController ()<UITableViewDataSource, UITableViewDelegate>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *tableViewMArr;
+@end
+
+@implementation AddAllergyMedicineViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    _tableViewMArr = [[NSMutableArray alloc] init];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    [self getDataFromServer];
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuse"];
+    Medicine *medicine = [_tableViewMArr objectAtIndex:indexPath.row];
+    cell.textLabel.text = medicine.medicine_name;
+    cell.detailTextLabel.text = medicine.addTime;
+    return cell;
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return _tableViewMArr.count;
+}
+#pragma  mark- 读取数据
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
+-(void)getDataFromServer
+{
+    JSNetWorking *network = [[JSNetWorking alloc] init];
+    [network getRequestWithURLStr:@"http://www.tanghushi.com/api/mobile/?version=2&module=medicine_project&op=myrecord&tag=1" success:^(id ResultData) {
+        NSLog(@"%@", ResultData);
+        NSArray *tempArr= [[ResultData objectForKey:@"Variables"] objectForKey:@"value"];
+        for (int i = 0; i < tempArr.count; i++) {
+            Medicine *medicine = [[Medicine alloc] init];
+            [medicine setValuesForKeysWithDictionary:[tempArr objectAtIndex:i]];
+            [_tableViewMArr addObject:medicine];
+        }
+        [_tableView reloadData];
+    } failure:^(NSError *error, AFHTTPRequestOperation *operation) {
+        
+    }];
+}
+- (IBAction)addMedicineBtnAction:(id)sender {
+    AddMedicineViewController *addMedicineVC = [[AddMedicineViewController alloc] init];
+    [addMedicineVC valueOfMedicine:^(Medicine *medicine) {
+        NSDate *date = [NSDate date];
+        NSDateFormatter *form = [[NSDateFormatter alloc] init];
+        [form setDateFormat:@"YYY-MM-dd"];
+        medicine.addTime = [form stringFromDate:date];
+        [_tableViewMArr addObject:medicine
+         ];
+        [_tableView reloadData];
+    }];
+    [self.navigationController pushViewController:addMedicineVC animated:YES];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

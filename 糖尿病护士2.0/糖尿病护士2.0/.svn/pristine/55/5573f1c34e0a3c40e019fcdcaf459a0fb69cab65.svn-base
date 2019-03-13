@@ -1,0 +1,31 @@
+//
+//  CellForHistory.m
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-12-5.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "CellForHistory.h"
+
+@implementation CellForHistory
+
+- (void)awakeFromNib {
+    // Initialization code
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+- (void)setProject:(UseMedicinePlan *)project
+{
+    if (_project != project) {
+        _project = project;
+        _projectNameLabel.text = _project.name;
+        _timeLabel.text = [NSString stringWithFormat:@"开始%@结束%@", _project.starttime, _project.endtime];
+        
+    }
+}
+@end

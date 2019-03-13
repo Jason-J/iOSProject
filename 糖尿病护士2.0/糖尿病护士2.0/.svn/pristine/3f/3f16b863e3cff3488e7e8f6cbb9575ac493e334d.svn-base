@@ -1,0 +1,120 @@
+//
+//  AlarmClockRemindViewController.m
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-11-19.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "AlarmClockRemindViewController.h"
+#import "CellForAlarmClock.h"
+@interface AlarmClockRemindViewController ()<UITableViewDataSource, UITableViewDelegate>
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *datasourceMArr;
+@property (weak, nonatomic) IBOutlet UIView *noAlarmBgView;
+
+@end
+
+@implementation AlarmClockRemindViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+//    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundImage.png"]];
+
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    _noAlarmBgView.backgroundColor = RGB(248, 248, 249);
+
+ 
+}
+//#pragma  mark- 编辑按钮触发方法
+//-(void)setEditing:(BOOL)editing animated:(BOOL)animated
+//{
+//    [super setEditing:editing animated:animated];
+//    [_tableView setEditing:editing animated:animated];
+//    
+//}
+#pragma  mark- tableView的编辑状态
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return  UITableViewCellEditingStyleDelete ;
+}
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (UITableViewCellEditingStyleDelete == editingStyle) {
+        [_datasourceMArr  removeObjectAtIndex:indexPath.row];
+        [self writeToLocal];
+        
+        [_tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationBottom];
+    }
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self readAlarmFromLocal];
+    [_tableView reloadData];
+}
+#pragma  mark- 闹钟本地逻辑
+-(void)readAlarmFromLocal
+{
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *familyArrPath = [docPath stringByAppendingPathComponent:@"alarmClock.aa"];
+    NSArray *array = [NSKeyedUnarchiver unarchiveObjectWithFile:familyArrPath];
+    if (array) {
+        
+        _datasourceMArr = [NSKeyedUnarchiver unarchiveObjectWithFile:familyArrPath];
+        if (_datasourceMArr.count >0) {
+            _noAlarmBgView.hidden = YES;
+        }
+    } else {
+//    _tableView.backgroundColor =[UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundImage.png"]];
+        _noAlarmBgView.hidden = NO;
+    }
+}
+
+#pragma  mark- 闹钟本地存储
+- (void)writeToLocal
+{
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *familyArrPath = [docPath stringByAppendingPathComponent:@"alarmClock.aa"];
+    NSLog(@"%@", familyArrPath);
+    if (_datasourceMArr.count == 0) {               _noAlarmBgView.hidden = NO;
+    }
+    [NSKeyedArchiver archiveRootObject:_datasourceMArr toFile:familyArrPath];
+    NSArray *array = [NSKeyedUnarchiver unarchiveObjectWithFile:familyArrPath];
+    NSLog(@"%@", array);
+}
+#pragma  mark- UITableView delegate
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *str = @"CellForAlarmClock";
+    CellForAlarmClock *cell = (CellForAlarmClock *)[tableView dequeueReusableCellWithIdentifier:str];
+    cell.alarmClock = [_datasourceMArr objectAtIndex:indexPath.row];
+    return cell;
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return _datasourceMArr.count;
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

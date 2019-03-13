@@ -1,0 +1,28 @@
+//
+//  DoctorTableViewCell.h
+//  TangNiaoBingHuShi
+//
+//  Created by qimingfang-dwk on 14/11/20.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "Doctor.h"
+
+@interface DoctorTableViewCell : UITableViewCell
+
+@property (weak, nonatomic) IBOutlet UIImageView *doctorIma;
+@property (weak, nonatomic) IBOutlet UILabel *doctorNameLab;
+@property (weak, nonatomic) IBOutlet UILabel *doctorTitleLab;
+@property (weak, nonatomic) IBOutlet UILabel *hospitalLab;
+@property (weak, nonatomic) IBOutlet UILabel *achievementLab;
+@property (weak, nonatomic) IBOutlet UIButton *bundlingBtn;
+@property (weak, nonatomic) IBOutlet UILabel *priceLab;
+
+@end
+
+@interface DoctorTableViewCell(ConfigureForDoctor)
+
+- (void)configureForModel:(Doctor *)doctor;
+
+@end

@@ -1,0 +1,25 @@
+//
+//  HomeViewCell.h
+//  ShowProduct
+//
+//  Created by lin on 14-5-22.
+//  Copyright (c) 2014年 @"". All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "Subjects.h"
+
+@interface HomeViewCell : UITableViewCell
+
+@property (retain, nonatomic) IBOutlet UIImageView *headerImageView;
+@property (retain, nonatomic) IBOutlet UILabel *titleLab;
+@property (retain, nonatomic) IBOutlet UILabel *summaryLab;
+@property (retain, nonatomic) IBOutlet UILabel *collectNumLab;
+@property (retain, nonatomic) IBOutlet UILabel *shareLab;
+@property (retain, nonatomic) IBOutlet UILabel *commentLab;
+@property (retain, nonatomic) IBOutlet UILabel *timeLab;
+
+@end
+@interface HomeViewCell (ConfigureForSubjects)
+- (void)configureForSubjects:(Subjects *)subjects;
+@end

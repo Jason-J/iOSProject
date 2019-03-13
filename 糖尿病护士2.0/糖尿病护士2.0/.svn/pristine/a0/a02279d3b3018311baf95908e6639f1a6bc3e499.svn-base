@@ -1,0 +1,13 @@
+//
+//  MyHistoryQuestionViewController.h
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-12-4.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface MyHistoryQuestionViewController : UITableViewController
+
+@end

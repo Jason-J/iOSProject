@@ -1,0 +1,185 @@
+//
+//  RegisterViewController.m
+//  TangNiaoBingHuShi
+//
+//  Created by qimingfang-dwk on 14/11/21.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "RegisterViewController.h"
+#import "User.h"
+#import "AFNetworking.h"
+
+@interface RegisterViewController ()<UITextFieldDelegate>{
+    BOOL read;
+}
+@property (weak, nonatomic) IBOutlet UITextField *userNameTF;
+@property (weak, nonatomic) IBOutlet UITextField *phoneTF;
+@property (weak, nonatomic) IBOutlet UITextField *codeTF;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTF;
+@property (weak, nonatomic) IBOutlet UITextField *surepasswordTF;
+@property (weak, nonatomic) IBOutlet UIButton *readBtn;
+
+
+@property (nonatomic,strong) NSString * code;
+@end
+
+@implementation RegisterViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.code = [[NSString alloc] init];
+    // Do any additional setup after loading the view.
+    _userNameTF.delegate = self;
+    _phoneTF.delegate = self;
+    _codeTF.delegate = self;
+    _passwordTF.delegate = self;
+    _surepasswordTF.delegate = self;
+     _passwordTF.secureTextEntry = YES;
+    _surepasswordTF.secureTextEntry = YES;
+    _readBtn.backgroundColor = [UIColor whiteColor];
+    read = NO;
+}
+- (IBAction)backAction:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+- (IBAction)getCode:(id)sender {
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://test.tanghushi.com/api/mobile/?version=2&module=verify&op=getverify&mobiles=%@&yy=0", _phoneTF.text]];
+    NSURLRequest * request =[NSURLRequest requestWithURL:url];
+    AFHTTPRequestOperation * operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSString *requestTmp = [NSString stringWithString:operation.responseString];
+        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+        
+        id object = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+        
+        id value = [[object objectForKey:@"Variables"] objectForKey:@"value"];
+        NSLog(@"%@",value);
+        if ([value intValue]==0) {
+            DXAlertView * alertView = [[DXAlertView alloc] initWithTitle:@"提示" contentText:@"该手机号已经注册过了哦~" leftButtonTitle:nil rightButtonTitle:@"确定"];
+            [alertView show];
+        } else{
+            
+            NSLog(@"验证码=%@",value);
+            NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
+            NSString * str = [numberFormatter stringFromNumber:value];
+            self.code = str;
+        }
+
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"注册失败，error==%@",error);
+        [FVCustomAlertView showDefaultErrorAlertOnView:self.view withTitle:@"注册失败,请重试"];
+    }];
+    [operation start];
+}
+
+
+
+- (IBAction)registerAction:(id)sender {
+    if ([_userNameTF.text isEqualToString:@""] || [_passwordTF.text isEqualToString:@""]) {
+       
+        DXAlertView * alertView = [[DXAlertView alloc] initWithTitle:@"提示" contentText:@"用户名或密码不能为空" leftButtonTitle:nil rightButtonTitle:@"确认"];
+        [alertView show];
+    } else  if ([_surepasswordTF.text isEqualToString:_passwordTF.text] == NO){
+        DXAlertView * alertView = [[DXAlertView alloc] initWithTitle:@"提示" contentText:@"俩次输入的密码不一致" leftButtonTitle:nil rightButtonTitle:@"确认"];
+        [alertView show];
+        
+    } else if([self.code isEqualToString:_codeTF.text]==NO){
+        DXAlertView * alert = [[DXAlertView alloc] initWithTitle:@"提示" contentText:@"验证码不正确" leftButtonTitle:nil rightButtonTitle:@"确认"];
+        [alert show];
+    }else{
+            [self registerRequest];
+    }
+
+}
+
+- (void)registerRequest{
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://test.tanghushi.com/api/mobile/?version=2&module=userinfo&op=checkusername&username=%@", _userNameTF.text]];
+    NSURLRequest * request =[NSURLRequest requestWithURL:url];
+    AFHTTPRequestOperation * operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+       
+
+        NSString *requestTmp = [NSString stringWithString:operation.responseString];
+        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+        
+        id object = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+        NSString * value = [[object objectForKey:@"Variables"] objectForKey:@"value"];
+        NSLog(@"%@",value);
+        if ([value intValue]==1) {
+            DXAlertView * alertView = [[DXAlertView alloc] initWithTitle:@"提示" contentText:@"该用户名已经被注册了哦~" leftButtonTitle:nil rightButtonTitle:@"确定"];
+            [alertView show];
+        } else{
+            if (read==NO) {
+                DXAlertView * ale =[[DXAlertView alloc] initWithTitle:@"提示" contentText:@"请仔细阅读《糖护士用户协议》" leftButtonTitle:nil rightButtonTitle:@"返回"];
+                [ale show];
+            } else{
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://test.tanghushi.com/api/mobile/?version=2&module=register&regsubmit=yes&diy=yes&mod=register&thsapp=1&passwddecode=1&username=%@&password=%@&mobile=%@", _userNameTF.text, _passwordTF.text,_phoneTF.text]];
+            NSURLRequest * request =[NSURLRequest requestWithURL:url];
+            AFHTTPRequestOperation * operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+        
+            [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+                
+                NSString *requestTmp = [NSString stringWithString:operation.responseString];
+                NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+                
+                id object = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+
+                 NSString *value = [[object objectForKey:@"Message"] objectForKey:@"messageval"];
+                if ([value isEqualToString:@"register_succeed"]||[value isEqualToString:@"location_register_succeed"]) {
+            
+                     DXAlertView * alertView = [[DXAlertView alloc] initWithTitle:@"温馨提示" contentText:@"注册成功" leftButtonTitle:nil rightButtonTitle:@"确定"];
+                    [alertView show];
+                } else {
+                     DXAlertView * alertView = [[DXAlertView alloc] initWithTitle:@"温馨提示" contentText:@"注册失败，请再试一次" leftButtonTitle:nil rightButtonTitle:@"确定"];
+                    [alertView show];
+                }
+
+                NSLog(@"==-=-=-=-=-=%@",value);
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                NSLog(@"注册失败，error==%@",error);
+
+            }];
+                [operation start];
+            
+        }
+    }
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"用户名验证失败，error==%@",error);
+            [FVCustomAlertView showDefaultErrorAlertOnView:self.view withTitle:@"用户验证失败"];
+    }];
+    [operation start];
+}
+- (IBAction)read:(id)sender {
+
+    if (read==YES) {
+    
+        [_readBtn setImage:[UIImage imageNamed:@"read-_gary"] forState:UIControlStateNormal];
+        read=NO;
+    } else{
+        [_readBtn setImage:[UIImage imageNamed:@"read"] forState:UIControlStateNormal];
+        read=YES;
+    }
+    
+}
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    return YES;
+}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

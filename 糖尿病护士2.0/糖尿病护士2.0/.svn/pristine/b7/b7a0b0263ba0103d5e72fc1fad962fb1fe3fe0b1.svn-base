@@ -1,0 +1,190 @@
+//
+//  MedicalRecordListViewController.m
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-12-23.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "MedicalRecordListViewController.h"
+#import "MedicalRecordCell.h"
+#import "CommonSettings.h"
+#import "SVProgressHUD.h"
+#import "EGORefreshTableHeaderView.h"
+#import "AFNetworking.h"
+
+@interface MedicalRecordListViewController ()<EGORefreshTableHeaderDelegate>
+
+@property(nonatomic, strong) NSMutableArray *dataSource;
+
+@property(nonatomic, strong) EGORefreshTableHeaderView *refreshTableHeaderView;
+@property(nonatomic, assign) BOOL isReloadiing;
+
+@end
+
+@implementation MedicalRecordListViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+
+    // get medical record list here
+//    /api/mobile/?version=2&module=case&op=caseimglist
+    [SVProgressHUD show];
+    NSString *urlString = [CommonSettings baseUrlWithVersion:2 module:@"case" parameters:@{@"op": @"caseimglist"}];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager GET:urlString parameters:nil
+         success:^(AFHTTPRequestOperation *httpRequestOperation, id responseObject){
+             [SVProgressHUD showSuccessWithStatus:@""];
+             NSLog(@"%@", responseObject);
+         }
+         failure:^(AFHTTPRequestOperation *httpRequestOperation, NSError *error){
+             [SVProgressHUD showErrorWithStatus:@""];
+             NSLog(@"%@", error);
+         }];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Action & private methods
+
+- (IBAction)recordAddedAction:(UIStoryboardSegue *)sender {
+    NSString *urlString = [CommonSettings baseUrlWithVersion:2 module:@"case" parameters:@{@"op": @"addcaseimg"}];
+    
+    NSLog(@"request url: %@", urlString);
+    
+    [SVProgressHUD show];
+    JSNetWorking *httpRequest = [[JSNetWorking alloc] init];
+    [httpRequest postImagesRequestWithURLStr:urlString imagesArray:self.selectedImages imageKey:@"medical_record" paramters:nil
+                                     success:^(id responseData){
+                                         NSLog(@"done");
+                                         [SVProgressHUD showSuccessWithStatus:@"完成"];
+    } failure:^(NSError *error, AFHTTPRequestOperation *requestOperation){
+        NSLog(@"error");
+        [SVProgressHUD showErrorWithStatus:@"重试"];
+    }];
+}
+
+#pragma mark - EGORefreshTableHeaderView delegate
+
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
+    
+}
+
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
+    return self.isReloadiing;
+}
+
+- (NSDate *)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
+    return [NSDate date];
+}
+
+#pragma mark - UIScrollView delegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    [self.refreshTableHeaderView egoRefreshScrollViewDidScroll:scrollView];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    [self.refreshTableHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+    
+}
+
+#pragma mark - Refresh methods
+
+//
+// request data here
+//
+- (void)reloadTableViewDataSource{
+    
+    //  should be calling your tableviews data source model to reload
+    //  put here just for demo
+    NSLog(@"dragging!!!");
+//    timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(doneLoadingTableViewData) userInfo:nil repeats:NO];
+//    reloading = YES;
+}
+
+//
+// reload data here
+//
+- (void)doneLoadingTableViewData{
+    
+    //  model should call this when its done loading
+    NSLog(@"stop loading");
+
+    [self.refreshTableHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+    [self.tableView reloadData];
+}
+
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+#warning Potentially incomplete method implementation.
+    // Return the number of sections.
+    return 0;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+#warning Incomplete method implementation.
+    // Return the number of rows in the section.
+    return 0;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    MedicalRecordCell *cell = (MedicalRecordCell *)[tableView dequeueReusableCellWithIdentifier:@"RecordCell" forIndexPath:indexPath];
+    
+    
+    
+    return cell;
+}
+
+
+/*
+// Override to support conditional editing of the table view.
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return NO if you do not want the specified item to be editable.
+    return YES;
+}
+*/
+
+/*
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the row from the data source
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }   
+}
+*/
+
+/*
+// Override to support rearranging the table view.
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+}
+*/
+
+/*
+// Override to support conditional rearranging of the table view.
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return NO if you do not want the item to be re-orderable.
+    return YES;
+}
+*/
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

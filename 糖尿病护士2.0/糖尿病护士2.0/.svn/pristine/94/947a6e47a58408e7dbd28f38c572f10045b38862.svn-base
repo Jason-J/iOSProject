@@ -1,0 +1,37 @@
+//
+//  ProvisionCell.m
+//  TangNiaoBingHuShi
+//
+//  Created by qimingfang-dwk on 14/12/8.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "ProvisionCell.h"
+
+@implementation ProvisionCell
+
+- (void)awakeFromNib {
+    // Initialization code
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+
+- (IBAction)agreeAction:(id)sender {
+    NSLog(@"%s，同意条款",__func__);
+    DXAlertView * alert = [[DXAlertView alloc] initWithTitle:@"糖尿病护士提醒" contentText:@"确定绑定此医生?" leftButtonTitle:@"取消" rightButtonTitle:@"确定"];
+    alert.rightBlock = ^(void){
+        NSLog(@"%s,绑定方法",__func__);
+    };
+    JSNetWorking * js = [[JSNetWorking alloc] init];
+    [js getRequestWithURLStr:@"" success:^(id ResultData) {
+        NSLog(@"qq");
+    } failure:^(NSError *error, AFHTTPRequestOperation *operation) {
+        NSLog(@"a");
+    }];
+}
+
+@end

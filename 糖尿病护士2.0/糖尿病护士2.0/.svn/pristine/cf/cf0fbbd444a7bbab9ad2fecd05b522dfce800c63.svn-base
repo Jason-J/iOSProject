@@ -1,0 +1,74 @@
+//
+//  FindPasswordViewController.m
+//  TangNiaoBingHuShi
+//
+//  Created by qimingfang-dwk on 14/11/25.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "FindPasswordViewController.h"
+#import "User.h"
+#import "AFNetworking.h"
+@interface FindPasswordViewController ()<UITextFieldDelegate>
+@property (weak, nonatomic) IBOutlet UITextField *userNameTF;
+@property (weak, nonatomic) IBOutlet UITextField *phoneTF;
+@property (weak, nonatomic) IBOutlet UIButton *sendBtn;
+
+@end
+
+@implementation FindPasswordViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    self.phoneTF.delegate = self;
+}
+- (IBAction)backAction:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+- (void)getUserMessage{
+//    User * user = [User shareInstance];
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://test.tanghushi.com/api/mobile/?version=2&module=findpassword&op=mobiles&mobiles=%@&username=%@",_phoneTF.text,_userNameTF.text]];
+    //    NSMutableString * string = [NSMutableString stringWithFormat:
+    
+    NSURLRequest * request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:20];
+    
+    AFHTTPRequestOperation * operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSString *requestTmp = [NSString stringWithString:operation.responseString];
+        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+        
+        id object = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+        NSLog(@"=-==-=-=-=%@",object);
+          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (error) {
+            NSLog(@"error ==%@",error);
+        }
+    }];
+    [operation start];
+    
+}
+
+- (IBAction)sendNewPasswordAction:(id)sender {
+    [self getUserMessage];
+}
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    return YES;
+}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

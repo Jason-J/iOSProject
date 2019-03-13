@@ -1,0 +1,71 @@
+//
+//  NoteController.m
+//  TangNiaoBingHuShi
+//
+//  Created by qimingfang-dwk on 14/12/10.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import "NoteController.h"
+#import "JSDatePickerView.h"
+
+@interface NoteController ()<UITableViewDataSource,UITableViewDelegate>{
+    NSMutableArray * tableArray;
+}
+@property (weak, nonatomic) IBOutlet UILabel *dateLab;
+@property (weak, nonatomic) IBOutlet UIButton *dateBtn;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@end
+
+@implementation NoteController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    tableArray = [[NSMutableArray alloc] init];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+}
+- (IBAction)chooseDateAction:(id)sender {
+    JSDatePickerView * picker = [JSDatePickerView datePickerViewInstance];
+    [picker showInView:self.view];
+    [picker valueOfCurrentStr:^(NSString *currentStr) {
+        NSLog(@"-----%@",currentStr);
+        self.dateLab.text = currentStr;
+    }];
+}
+- (void)getMyNoteRequest{
+    JSNetWorking * js = [[JSNetWorking alloc] init];
+    NSString * url = [NSString stringWithFormat:@"http://www.tanghushi.com/api/mobile/?version=2&module=userinfo&op=tradeRecord&date=%@",_dateLab.text];
+    [js getRequestWithURLStr:url success:^(id ResultData) {
+        NSLog(@"%@",ResultData);
+        id value = [[ResultData objectForKey:@"Variables"] objectForKey:@"value"];
+        [tableArray addObjectsFromArray:value];
+    } failure:^(NSError *error, AFHTTPRequestOperation *operation) {
+        NSLog(@"error = %@",error);
+    }];
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 3;
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+  
+    return [[UITableViewCell alloc]init];
+}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

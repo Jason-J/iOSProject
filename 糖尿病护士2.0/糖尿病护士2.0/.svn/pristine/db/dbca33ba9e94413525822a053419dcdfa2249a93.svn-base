@@ -1,0 +1,15 @@
+//
+//  BloodSugar.h
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-12-9.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface BloodSugar : NSObject
+@property (nonatomic, copy) NSString *bloodSugarValue;
+@property (nonatomic, copy) NSString *rdate;
+@property (nonatomic, copy) NSString *timer;
+@end

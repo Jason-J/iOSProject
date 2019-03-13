@@ -1,0 +1,14 @@
+//
+//  LoginState.h
+//  TangNiaoBingHuShi
+//
+//  Created by Jason on 14-12-9.
+//  Copyright (c) 2014年 Jason. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface LoginState : NSObject
+
+-(BOOL)loginStateWithViewController:(UIViewController *)viewController;
+@end
